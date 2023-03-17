@@ -40,8 +40,8 @@
 
 
                         <a href="">
-                        <span class="menu-link menu-center">
-                            <span class="menu-icon me-0">
+                            <span class="menu-link menu-center">
+                                <span class="menu-icon me-0">
                                     <i class="fonticon-house fs-1 text-light"></i>
                                 </span>
 
@@ -156,8 +156,15 @@
 
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
-                                            <a href="../../demo4/dist/authentication/layouts/corporate/sign-in.html"
-                                                class="menu-link px-5">Sign Out</a>
+                                            <a href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();"
+                                                {{ __('Logout') }} class="menu-link px-5">Sign Out</a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                class="d-none">
+                                                @csrf
+                                            </form>
                                         </div>
                                         <!--end::Menu item-->
                                     </div>
