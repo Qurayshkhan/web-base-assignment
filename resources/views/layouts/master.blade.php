@@ -39,10 +39,10 @@
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="">
+                        <a href="" >
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
-                                    <i class="fonticon-house fs-1 text-light"></i>
+                                    <i class="fas fa-user-friends fs-1 text-light"></i>
                                 </span>
 
                             </span>
