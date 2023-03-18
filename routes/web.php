@@ -18,10 +18,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function() {
-
 
     Route::get('/home', [UserController::class, 'index'])->name('home');
 
