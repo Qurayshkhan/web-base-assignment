@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
 
-    protected $userService;
-    public function __construct(UserService $userService)
+    protected $userService, $roles;
+    public function __construct(UserService $userService, Role $roles)
     {
         $this->userService = $userService;
+        $this->roles = $roles;
 
     }
 
     public function index(){
 
-        return view('users.home');
+
+        $roles = $this->roles->get();
+        return view('users.home', compact('roles'));
 
     }
 
-    public function createUpdateUser(Request $request){
+    public function createUpdateUser(UserRequest $request){
 
      return  $this->userService->createUpdateUser($request);
 
@@ -30,6 +35,12 @@ class UserController extends Controller
     public function getUsersList(Request $request)
     {
         return $this->userService->getUsers($request);
+    }
+
+    public function destroy($user){
+
+            return $this->userService->deleteUser($user);
+
     }
 
 }

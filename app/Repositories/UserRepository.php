@@ -27,15 +27,34 @@ class UserRepository
         // return $this->user->where('id', '!=', auth()->user()->id)->get();
 
         if ($request->ajax()) {
-            $data = $this->user->where('id', '!=', auth()->user()->id)->get();
+            $data = $this->user->with('role')->where('id', '!=', auth()->user()->id)->get();
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('role', function ($row) {
+
+                    return $row->getRoleNames()->implode(', ');
+                })
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="" class="edit btn btn-success btn-sm">Edit</a> <a href="" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $userId = $row->id;
+                    $name = $row->name;
+                    $email = $row->email;
+                    $roleId = $row->roles()->pluck('id')->first();
+
+                    $actionBtn =
+                        '<a    onClick="editUser(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $roleId . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#userModal">Edit</a>
+                        <button class="delete btn btn-danger btn-sm" data-id="' . $userId . '">Delete</button>
+                       ';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
+
+
+    public function deleteUser($id)
+    {
+        return $this->user->find($id)->delete();
+
     }
 }

@@ -20,11 +20,12 @@ class UserService
         $data = $request->all();
 
         if ($data['id']) {
-
-            $this->userRepository->updateOrCreateUser($data);
+            $user = $this->userRepository->updateOrCreateUser($data);
+            $user->syncRoles($data['role_id']);
             return "User update successfully";
         } else {
-            $this->userRepository->updateOrCreateUser($data);
+            $user = $this->userRepository->updateOrCreateUser($data);
+            $user->syncRoles($data['role_id']);
             return "User add successfully";
         }
     }
@@ -33,5 +34,11 @@ class UserService
     public function getUsers($request)
     {
         return $this->userRepository->getUsers($request);
+    }
+
+    public function deleteUser($id){
+
+        return $this->userRepository->deleteUser($id);
+
     }
 }

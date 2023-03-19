@@ -20,15 +20,16 @@
 
                 <form id="userForm">
                     @csrf
-                    <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="id" id="userId">
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
                         <label class="required fs-6 fw-semibold mb-2">Name</label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" class="form-control form-control-solid" placeholder="Enter user name"
-                            name="name" value="" />
+                            name="name" id="name" value="" />
                         <!--end::Input-->
+                        <span id="error_name" class="text-danger"></span>
                     </div>
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
@@ -36,8 +37,24 @@
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="email" class="form-control form-control-solid" placeholder="Enter email"
-                            name="email" value="" />
+                            name="email" value="" id="email" />
                         <!--end::Input-->
+                        <span id="error_email" class="text-danger"></span>
+
+                    </div>
+
+
+                    <div class="fv-row mb-7">
+
+                        <label class="required fs-6 fw-semibold mb-2">Select Role</label>
+
+                        <select class="form-select form-select-solid" aria-label="Select example" id="roleSelectId" name="role_id">
+                        <option>Select Role</option>
+                        @foreach ($roles as $role)
+                        <option value="{{$role->id}}">{{$role->name}}</option>
+                        @endforeach
+
+                    </select>
                     </div>
                 </form>
 
