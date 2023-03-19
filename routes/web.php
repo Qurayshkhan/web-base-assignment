@@ -24,6 +24,8 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/home', [UserController::class, 'index'])->name('home');
+    Route::post('/add-user', [UserController::class, 'createUpdateUser'])->name('user.add.user');
+    Route::get('/get-users', [UserController::class, 'getUsersList'])->name('get.users');
 
 });
 
