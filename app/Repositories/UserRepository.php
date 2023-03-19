@@ -27,7 +27,7 @@ class UserRepository
         // return $this->user->where('id', '!=', auth()->user()->id)->get();
 
         if ($request->ajax()) {
-            $data = $this->user->with('role')->where('id', '!=', auth()->user()->id)->get();
+            $data = $this->user->select('id', 'name', 'email')->with('role:id,name')->where('id', '!=', auth()->user()->id)->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('role', function ($row) {
