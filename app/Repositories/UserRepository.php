@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use DataTables;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository
 {
@@ -27,7 +27,7 @@ class UserRepository
         // return $this->user->where('id', '!=', auth()->user()->id)->get();
 
         if ($request->ajax()) {
-            $data = $this->user->select('id', 'name', 'email')->with('role:id,name')->where('id', '!=', auth()->user()->id)->get();
+            $data = $this->user->select('id', 'name', 'email', 'created_at')->with('role:id,name')->where('id', '!=', auth()->user()->id)->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('role', function ($row) {
@@ -55,6 +55,34 @@ class UserRepository
     public function deleteUser($id)
     {
         return $this->user->find($id)->delete();
+    }
 
+    public function userResetPassword($data)
+    {
+
+        $user = $this->user->where('email', $data['email'])->first();
+        // dd($user);
+
+        if ($user->remember_token != null) {
+            # code...
+
+            if ($user) {
+
+                $user->update([
+
+                    'remember_token' => null,
+                    'password' =>   Hash::make($data['password'])
+
+                ]);
+            } else {
+
+                return "User not found";
+            }
+
+            return "Your password is set successfully";
+        } else {
+
+            return "Your Link is Expired";
+        }
     }
 }

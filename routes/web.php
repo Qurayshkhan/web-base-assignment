@@ -15,11 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+Route::get('/reset-password/{token}/{email}', [UserController::class, 'resetPassword']);
+Route::post('/update-reset-password', [UserController::class, 'resetPasswordRequest'])->name('user.update.passowrd');
+
+
+
 Route::get('/', function () {
     return view('auth.login');
 });
-
-
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
@@ -29,6 +34,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get-users', [UserController::class, 'getUsersList'])->name('get.users');
 
     Route::delete('/delete-user/{user}', [UserController::class, 'destroy'])->name('user.delete');
+
+
 
     // Roles
 

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Constants;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -15,21 +18,26 @@ class UserController extends Controller
     {
         $this->userService = $userService;
         $this->roles = $roles;
-
     }
 
-    public function index(){
+    public function index()
+    {
 
 
         $roles = $this->roles->get();
         return view('users.home', compact('roles'));
-
     }
 
-    public function createUpdateUser(UserRequest $request){
+    public function resetPassword()
+    {
 
-     return  $this->userService->createUpdateUser($request);
+        return view('auth.passwords.reset');
+    }
 
+    public function createUpdateUser(UserRequest $request)
+    {
+
+        return  $this->userService->createUpdateUser($request);
     }
 
     public function getUsersList(Request $request)
@@ -37,10 +45,28 @@ class UserController extends Controller
         return $this->userService->getUsers($request);
     }
 
-    public function destroy($user){
+    public function destroy($user)
+    {
 
-            return $this->userService->deleteUser($user);
-
+        return $this->userService->deleteUser($user);
     }
 
+
+    // Password reset controller method
+    public function resetPasswordRequest(ResetPasswordRequest $request)
+    {
+
+        $user = $this->userService->userResetPassword($request->all());
+
+        if ($user == Constants::PASSWORD_SET_SUCCESS) {
+
+            return redirect()->route('login');
+        } else {
+            return redirect()->back()->with('status', $user);
+        }
+
+
+        // return view('auth.login');
+
+    }
 }
