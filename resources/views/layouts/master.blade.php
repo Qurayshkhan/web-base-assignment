@@ -50,7 +50,7 @@
                         </a>
                     </div>
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
-                        <a href="" data-bs-toggle="tooltip" data-bs-placement="right" title="Manage User">
+                        <a href="{{route('get.roles')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Manage User">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fas fa-user-cog fs-1 text-light"></i>

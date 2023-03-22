@@ -57,6 +57,8 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used by this page)-->
 		<script src="{{asset('assets/js/custom/authentication/sign-in/general.js')}}"></script>
+
+        <script src="{{asset('assets/js/custom/authentication/password-reset/new-password.js')}}"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

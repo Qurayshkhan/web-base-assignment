@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,18 +15,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+Route::get('/reset-password/{token}/{email}', [UserController::class, 'resetPassword']);
+Route::post('/update-reset-password', [UserController::class, 'resetPasswordRequest'])->name('user.update.passowrd');
+
+
+
 Route::get('/', function () {
     return view('auth.login');
 });
-
-
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/home', [UserController::class, 'index'])->name('home');
     Route::post('/add-user', [UserController::class, 'createUpdateUser'])->name('user.add.user');
     Route::get('/get-users', [UserController::class, 'getUsersList'])->name('get.users');
 
-});
+    Route::delete('/delete-user/{user}', [UserController::class, 'destroy'])->name('user.delete');
 
+
+
+    // Roles
+
+    Route::get('get-roles', [RoleController::class, 'index'])->name('get.roles');
+
+    Route::post('/add-user-role', [RoleController::class, 'addRole'])->name('add.user.roles');
+
+
+});
