@@ -13,11 +13,12 @@
         </div>
     </div>
     <div class="card-body">
-        <table id="usersTable" class="table table-row-bordered gy-5">
+        <table id="rolesTabel" class="table table-row-bordered gy-5">
             <thead>
                 <tr class="fw-semibold fs-6 text-muted">
                     <th>Name</th>
                     <th>Permission</th>
+                    <th>Created At</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -59,6 +60,7 @@
                     button.removeAttribute("data-kt-indicator");
                     $('#roleForm')[0].reset();
                     $('#roleModal').modal('hide');
+                    $('#rolesTabel').DataTable().ajax.reload();
                     toastr.success(response);
                 }
 
@@ -67,6 +69,18 @@
         });
 
 
+        $('#rolesTabel').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('roles.list') }}",
+        columns: [
+
+            { data: 'name', name: 'name' },
+            { data: 'permissions', name: 'permissions', orderable: false },
+            { data: 'created_at', name: 'created_at'},
+            { data: 'action', name: 'action', orderable: false, searchable: false },
+        ]
+    });
 
 
 
