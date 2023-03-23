@@ -1,3 +1,6 @@
+@php
+    $title = "Users";
+@endphp
 @extends('layouts.master')
 @section('content')
     @include('users.userModals.user-modals')

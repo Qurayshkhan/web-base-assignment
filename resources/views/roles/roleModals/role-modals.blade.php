@@ -23,13 +23,14 @@
                         <input type="text" class="form-control form-control-solid" placeholder="Enter user name"
                             name="role_name" value="" />
                         <!--end::Input-->
+                        <span class="text-danger" id="error_role_name"></span>
                     </div>
 
 
 
                     <div class="fv-row">
 
-                        <label class="fs-5 fw-bold form-label mb-2">Role Permissions</label>
+                        <label class="fs-5 fw-bold form-label mb-2">Role Permissions</label>   <span class ="text-danger" id="error_permissions"></span>
 
 
                         <div class="table-responsive">
@@ -48,7 +49,7 @@
 
                                                 <label
                                                     class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
-                                                    <input class="form-check-input" type="checkbox" value="view_user"
+                                                    <input class="form-check-input" id="view_user" type="checkbox" value="view_user"
                                                         name="permissions[]" />
                                                     <span class="form-check-label">View</span>
                                                 </label>
@@ -56,7 +57,7 @@
 
                                                 <label
                                                     class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
-                                                    <input class="form-check-input" type="checkbox" value="delete_user"
+                                                    <input class="form-check-input" id="delete_user" type="checkbox" value="delete_user"
                                                         name="permissions[]" />
                                                     <span class="form-check-label">Delete</span>
                                                 </label>
@@ -64,7 +65,7 @@
 
                                                 <label
                                                     class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
-                                                    <input class="form-check-input" type="checkbox" value="create_user"
+                                                    <input class="form-check-input" id="create_user" type="checkbox" value="create_user"
                                                         name="permissions[]" />
                                                     <span class="form-check-label">Create</span>
                                                 </label>
@@ -73,7 +74,7 @@
 
                                                 <label
                                                     class="form-check form-check-sm form-check-custom form-check-solid">
-                                                    <input class="form-check-input" type="checkbox" value="edit_user"
+                                                    <input class="form-check-input" id="edit_user" type="checkbox" value="edit_user"
                                                         name="permissions[]" />
                                                     <span class="form-check-label">Edit</span>
                                                 </label>
@@ -97,7 +98,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="closeButton">Close</button>
                 <button type="button" class="btn btn-primary me-10" id="saveButton">
                     <span class="indicator-label">
                         Submit
