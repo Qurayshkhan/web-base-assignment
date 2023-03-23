@@ -1,3 +1,6 @@
+@php
+    $title = "Roles";
+@endphp
 @extends('layouts.master')
 @section('content')
     @include('roles.roleModals.role-modals')

@@ -11,7 +11,7 @@
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css"/>
-    <title>Document</title>
+    <title>{{$title ?? ''}}</title>
 </head>
 
 <body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed aside-fixed aside-secondary-disabled">
@@ -140,12 +140,10 @@
                                                 <!--end::Avatar-->
                                                 <!--begin::Username-->
                                                 <div class="d-flex flex-column">
-                                                    <div class="fw-bold d-flex align-items-center fs-5">Max Smith
-                                                        <span
-                                                            class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
+                                                    <div class="fw-bold d-flex align-items-center fs-5">{{auth()->user()->name}}
                                                     </div>
                                                     <a href="#"
-                                                        class="fw-semibold text-muted text-hover-primary fs-7">max@kt.com</a>
+                                                        class="fw-semibold text-muted text-hover-primary fs-7">{{auth()->user()->email}}</a>
                                                 </div>
                                                 <!--end::Username-->
                                             </div>

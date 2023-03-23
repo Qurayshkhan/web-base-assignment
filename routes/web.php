@@ -29,8 +29,12 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
+
+    // User
     Route::get('/home', [UserController::class, 'index'])->name('home');
+
     Route::post('/add-user', [UserController::class, 'createUpdateUser'])->name('user.add.user');
+
     Route::get('/get-users', [UserController::class, 'getUsersList'])->name('get.users');
 
     Route::delete('/delete-user/{user}', [UserController::class, 'destroy'])->name('user.delete');
@@ -48,6 +52,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('edit.role');
 
     Route::delete('/delete-role/{role}', [RoleController::class, 'destroy'])->name('role.delete');
-
-
 });
