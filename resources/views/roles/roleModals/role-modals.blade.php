@@ -84,6 +84,48 @@
                                         </td>
 
                                     </tr>
+                                    <tr>
+
+                                        <td class="text-gray-800">Collage Management</td>
+
+                                        <td>
+
+                                            <div class="d-flex">
+
+                                                <label
+                                                    class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
+                                                    <input class="form-check-input" id="collage" type="checkbox" value="collage"
+                                                        name="permissions[]" />
+                                                    <span class="form-check-label">Collage</span>
+                                                </label>
+                                                <label
+                                                    class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
+                                                    <input class="form-check-input" id="view_collage" type="checkbox" value="view_collage"
+                                                        name="permissions[]" />
+                                                    <span class="form-check-label">View</span>
+                                                </label>
+
+
+                                                <label
+                                                    class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
+                                                    <input class="form-check-input" id="delete_collage" type="checkbox" value="delete_collage"
+                                                        name="permissions[]" />
+                                                    <span class="form-check-label">Delete</span>
+                                                </label>
+
+
+                                                <label
+                                                    class="form-check form-check-sm form-check-custom form-check-solid">
+                                                    <input class="form-check-input" id="edit_collage" type="checkbox" value="edit_collage"
+                                                        name="permissions[]" />
+                                                    <span class="form-check-label">Edit</span>
+                                                </label>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
 
                                 </tbody>
                             </table>

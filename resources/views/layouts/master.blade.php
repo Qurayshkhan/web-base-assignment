@@ -40,10 +40,34 @@
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="{{route('home')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Users">
+                        <a href="{{route('home')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                            <span class="menu-link menu-center">
+                                <span class="menu-icon me-0">
+                                    <i class="fas fa-home fs-1 text-light"></i>
+                                </span>
+
+                            </span>
+                        </a>
+                    </div>
+                    <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
+
+
+                        <a href="{{route('users')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Users">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fas fa-user-friends fs-1 text-light"></i>
+                                </span>
+
+                            </span>
+                        </a>
+                    </div>
+                    <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
+
+
+                        <a href="{{route('collage')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Collages">
+                            <span class="menu-link menu-center">
+                                <span class="menu-icon me-0">
+                                    <i class="fas fa-university fs-1 text-light"></i>
                                 </span>
 
                             </span>

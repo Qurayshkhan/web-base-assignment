@@ -6,7 +6,7 @@
     @include('users.userModals.user-modals')
     <div class="card shadow-sm">
         <div class="card-header">
-            <h3 class="card-title">Users</h3>
+            <h2 class="card-title">Users</h2>
             <div class="card-toolbar">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
                     <i class="fa-solid fa-plus"></i>
