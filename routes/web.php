@@ -45,5 +45,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/add-user-role', [RoleController::class, 'addRole'])->name('add.user.roles');
 
+    Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('edit.role');
+
+    Route::delete('/delete-role/{role}', [RoleController::class, 'destroy'])->name('role.delete');
+
 
 });
