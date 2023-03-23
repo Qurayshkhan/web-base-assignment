@@ -44,17 +44,34 @@
                     </div>
 
 
+                    <div class="fv-row mb-7" id="userTypeFeild">
+
+                        <label class="required fs-6 fw-semibold mb-2">Select user type</label>
+
+                        <select class="form-select form-select-solid" aria-label="Select example" id="userType"
+                            name="user_type">
+                            <option>Select user type</option>
+
+                            <option value="1">Collage</option>
+                            <option value="2">Teacher</option>
+                            <option value="3">Student</option>
+
+
+                        </select>
+                    </div>
+
                     <div class="fv-row mb-7">
 
                         <label class="required fs-6 fw-semibold mb-2">Select Role</label>
 
-                        <select class="form-select form-select-solid" aria-label="Select example" id="roleSelectId" name="role_id">
-                        <option>Select Role</option>
-                        @foreach ($roles as $role)
-                        <option value="{{$role->id}}">{{$role->name}}</option>
-                        @endforeach
+                        <select class="form-select form-select-solid" aria-label="Select example" id="roleSelectId"
+                            name="role_id">
+                            <option>Select Role</option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
 
-                    </select>
+                        </select>
                     </div>
                 </form>
 

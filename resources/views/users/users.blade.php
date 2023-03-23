@@ -118,7 +118,7 @@
 
         let editUser = (name, email, user_id, role_id) => {
 
-
+            $('#userTypeFeild').attr('hidden', true);
             $('#modalTitle').html("Edit a User");
             $('#userId').val(user_id);
             $('#name').val(name);

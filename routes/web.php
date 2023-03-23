@@ -65,6 +65,6 @@ Route::group(['middleware' => ['auth']], function () {
     // collage
 
     Route::get('/collage', [CollageController::class, 'index'])->name('collage');
-
-
+    Route::get('/collage-list', [CollageController::class, 'getCollageList'])->name('collage.list');
+    Route::post('/collage-update-information', [CollageController::class, 'updateCollageInformation'])->name('update.collage');
 });
