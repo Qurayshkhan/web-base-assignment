@@ -65,7 +65,7 @@ class RoleController extends Controller
                     $btn = '<a href="" class="edit btn btn-primary btn-sm">Edit</a>';
                     $btn .= ' <a href="" class="delete btn btn-danger btn-sm">Delete</a>';
                     return $btn;
-                })
+                })->rawColumns(['action', 'permissions'])
                 ->make(true);
         }
     }
