@@ -24,7 +24,7 @@ class UserController extends Controller
 
 
         $roles = $this->roles->get();
-        return view('users.home', compact('roles'));
+        return view('users.users', compact('roles'));
     }
 
     public function resetPassword()

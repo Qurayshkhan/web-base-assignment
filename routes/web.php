@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CollageController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -25,13 +27,19 @@ Route::post('/update-reset-password', [UserController::class, 'resetPasswordRequ
 Route::get('/', function () {
     return view('auth.login');
 });
+
+Route::get('/profile-complete', [HomeController::class, 'completeProfile'])->name('complete.profile');
+
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth']], function () {
 
+
+
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     // User
-    Route::get('/home', [UserController::class, 'index'])->name('home');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
 
     Route::post('/add-user', [UserController::class, 'createUpdateUser'])->name('user.add.user');
 
@@ -52,4 +60,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('edit.role');
 
     Route::delete('/delete-role/{role}', [RoleController::class, 'destroy'])->name('role.delete');
+
+
+    // collage
+
+    Route::get('/collage', [CollageController::class, 'index'])->name('collage');
+
+
 });
