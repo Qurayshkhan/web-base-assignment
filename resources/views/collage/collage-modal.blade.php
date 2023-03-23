@@ -15,7 +15,8 @@
 
                 <form id="collageForm">
                     @csrf
-                    <input type="hidden" name="id" id="userId">
+                    <input type="hidden" name="user_id" id="userId">
+                    <input type="hidden" name="collage_id" id="collageId">
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
                         <label class="required fs-6 fw-semibold mb-2">Name</label>
@@ -53,7 +54,7 @@
 
                         <label class="required fs-6 fw-semibold mb-2">Enter Address</label>
                         <input type="text" class="form-control form-control-solid" placeholder="Enter collage address"
-                            name="address" value="" id="address" />
+                            name="location" value="" id="address" />
                         <!--end::Input-->
                         <span id="error_address" class="text-danger"></span>
 

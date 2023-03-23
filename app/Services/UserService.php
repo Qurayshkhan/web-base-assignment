@@ -27,6 +27,7 @@ class UserService
             "remember_token" => $token,
             "email" => $request->email,
             "name" => $request->name,
+            "user_type" => $request->user_type
         ];
         if ($data['id']) {
             $user = $this->userRepository->updateOrCreateUser($data);

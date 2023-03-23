@@ -9,6 +9,9 @@ class Collage extends Model
 {
     use HasFactory;
 
+
+        protected $fillable = ['contact', 'location', 'id', 'user_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Helpers\Constants;
+use App\Models\Collage;
 use App\Models\User;
 use DataTables;
 use Illuminate\Support\Facades\Hash;
@@ -9,16 +11,30 @@ use Illuminate\Support\Facades\Hash;
 class UserRepository
 {
 
-    protected $user;
-    public function __construct(User $user)
+    protected $user, $collage, $student, $teacher;
+    public function __construct(User $user, Collage $collage)
     {
         $this->user = $user;
+        $this->collage = $collage;
     }
 
     public function updateOrCreateUser($data)
     {
 
-        return $this->user->updateOrCreate(['id' => $data['id']], $data);
+        if ($data['user_type'] == Constants::COLLAGE) {
+
+            $user =  $this->user->updateOrCreate(['id' => $data['id']], $data);
+
+            $this->collage->updateOrCreate(
+                ['id' => $data['id']],
+
+                [
+                    'user_id' => $user->id,
+                ]
+            );
+        }
+
+        return $user;
     }
 
     public function getUsers($request)
