@@ -47,16 +47,25 @@ class User extends Authenticatable
     ];
 
 
-    public function role(){
+    public function role()
+    {
 
         return $this->belongsTo(Role::class);
-
     }
 
-    public function collage(){
+    public function collage()
+    {
 
         return $this->hasOne(Collage::class);
-
     }
+    public function teacher()
+    {
 
+        return $this->hasOne(Teacher::class);
+    }
+    public function student()
+    {
+
+        return $this->hasOne(Student::class);
+    }
 }
