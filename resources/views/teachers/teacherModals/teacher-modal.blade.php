@@ -20,6 +20,7 @@
 
                 <form id="teacherForm">
                     @csrf
+                    <input type="hidden" name="id" id="teacherId">
                     <input type="hidden" name="user_id" id="userId">
                     <div class="fv-row mb-7">
                         <!--begin::Label-->
@@ -42,8 +43,28 @@
                         <span id="error_email" class="text-danger"></span>
 
                     </div>
+                    <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label class="required fs-6 fw-semibold mb-2">Location</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="email" class="form-control form-control-solid" placeholder="Enter location"
+                            name="location" value="" id="address" />
+                        <!--end::Input-->
+                        <span id="error_address" class="text-danger"></span>
 
+                    </div>
+                    <div class="fv-row mb-7">
+                        <!--begin::Label-->
+                        <label class="required fs-6 fw-semibold mb-2">Contact</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="email" class="form-control form-control-solid" placeholder="Enter Contact"
+                            name="contact" value="" id="contact" />
+                        <!--end::Input-->
+                        <span id="error_contact" class="text-danger"></span>
 
+                    </div>
 
 
                     <div class="fv-row mb-7">
@@ -52,7 +73,7 @@
 
                         <select class="form-select form-select-solid" aria-label="Select example" id="collageSelectId"
                             name="collage_id">
-                            <option>Select Course</option>
+                            <option>Select Collage</option>
                             @foreach ($collages as $collage)
                                 <option value="{{ $collage->id }}">{{ $collage->user->name }}</option>
                             @endforeach
@@ -63,8 +84,8 @@
                         <label class="required fs-6 fw-semibold mb-2">Select Course</label>
 
                         <select class="form-select form-select-solid" aria-label="Select example" id="courseSelectId"
-                            name="course_id[]">
-                            <option>Select Course</option>
+                            name="course_name[]" multiple data-control="select2" data-dropdown-parent="#teacherModal" data-placeholder="Select an course" data-allow-clear="true">
+                            <option value="">Select Course</option>
                             @foreach ($courses as $course)
                                 <option value="{{ $course->id }}">{{ $course->name }}</option>
                             @endforeach

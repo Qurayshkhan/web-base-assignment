@@ -17,7 +17,7 @@ class TeacherService
     public function createAndUpdateTeacher($data)
     {
 
-        $this->teacherRepository->storeTeacher($data);
+      return $this->teacherRepository->storeTeacher($data);
 
     }
 
