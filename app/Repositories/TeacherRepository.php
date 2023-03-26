@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\User;
-use DataTables;;
+use DataTables;
 
 class TeacherRepository
 {
@@ -42,8 +42,10 @@ class TeacherRepository
 
         );
 
-        $courses = $this->course->whereIn('id', $data['course_name'])->get();
+        $courses = $data['course_name'];
 
+
+        $teacher->courses()->detach();
 
         $teacher->courses()->attach($courses);
 

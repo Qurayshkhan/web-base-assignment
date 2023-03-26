@@ -1,18 +1,18 @@
 @extends('layouts.master')
 @section('content')
-    @include('teachers.teacherModals.teacher-modal')
+   @include('students.student_modals.student-modal')
     <div class="card shadow-sm">
         <div class="card-header">
-            <h2 class="card-title">Teacher</h2>
+            <h2 class="card-title">Students</h2>
             <div class="card-toolbar">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#teacherModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#studentModal">
                     <i class="fa-solid fa-plus"></i>
-                    Add Teacher
+                    Add Student
                 </button>
             </div>
         </div>
         <div class="card-body">
-            <table id="teacherTable" class="table table-row-bordered gy-5">
+            <table id="studentTable" class="table table-row-bordered gy-5">
                 <thead>
                     <tr class="fw-semibold fs-6 text-muted">
                         <th>Name</th>
@@ -49,18 +49,18 @@
             $('#saveButton').on('click', function(event) {
 
                 event.preventDefault();
-                let formData = $('#teacherForm').serialize();
+                let formData = $('#studentForm').serialize();
                 button.setAttribute("data-kt-indicator", "on");
                 $.ajax({
 
-                    url: "{{ route('teacher.store') }}",
+                    url: "{{route('store.student')}}",
                     type: 'POST',
                     data: formData,
                     success: function(response) {
                         button.removeAttribute("data-kt-indicator");
-                        $('#teacherForm')[0].reset();
-                        $('#teacherModal').modal('hide');
-                        $('#teacherTable').DataTable().ajax.reload();
+                        $('#studentForm')[0].reset();
+                        $('#studentModal').modal('hide');
+                        $('#studentTable').DataTable().ajax.reload();
 
                         $('#error_name').html('');
                         $('#error_email').html('');
@@ -83,10 +83,10 @@
             });
 
 
-            var table = $('#teacherTable').DataTable({
+            var table = $('#studentTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('get.teacher.list') }}",
+                ajax: "{{ route('get.student') }}",
                 columns: [
 
                     {
@@ -128,17 +128,19 @@
 
         });
 
-        let editTeacher = (name, email, user_id, teacher_id, conatact, address, collage_id, courses) => {
+        let editStudent = (name, email, user_id, student_id, conatact, address, collage_id, courses, degree_title, roll_number) => {
 
 
-            $('#modalTitle').html("Edit a Teacher");
+            $('#modalTitle').html("Edit a Student");
             $('#userId').val(user_id);
             $('#name').val(name);
             $('#email').val(email);
-            $('#teacherId').val(teacher_id);
+            $('#id').val(student_id);
             $('#collageSelectId').val(collage_id).trigger('change');
             $('#contact').val(conatact);
             $('#address').val(address);
+            $('#degreeTitle').val(degree_title);
+            $('#rollNumber').val(roll_number);
 
 
             let courseArray = [courses];
@@ -157,11 +159,7 @@
             $('#courseSelectId').trigger('change');
 
 
-            $('.close').on('click', function() {
 
-                $('#teacherForm')[0].reset();
-
-            });
 
 
         }

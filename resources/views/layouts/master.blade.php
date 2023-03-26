@@ -76,10 +76,22 @@
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="{{route('teacher')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Teacher">
+                        <a href="{{route('teacher')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Teachers">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fas fa-chalkboard-teacher fs-1 text-light"></i>
+                                </span>
+
+                            </span>
+                        </a>
+                    </div>
+                    <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
+
+
+                        <a href="{{route('students')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Students">
+                            <span class="menu-link menu-center">
+                                <span class="menu-icon me-0">
+                                    <i class="fa-solid fa-graduation-cap text-light fs-1"></i>
                                 </span>
 
                             </span>
