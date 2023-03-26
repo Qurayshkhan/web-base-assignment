@@ -31,7 +31,8 @@ class TeacherController extends Controller
 
     public function store(Request $request)
     {
-        $this->teacherService->createAndUpdateTeacher($request->all());
+
+       return $this->teacherService->createAndUpdateTeacher($request->all());
     }
 
 

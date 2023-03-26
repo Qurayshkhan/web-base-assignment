@@ -19,6 +19,7 @@
                         <th>Email</th>
                         <th>Contact</th>
                         <th>Address</th>
+                        <th>Courses</th>
                         <th>Created At</th>
                         <th>Action</th>
                     </tr>
@@ -48,11 +49,11 @@
             $('#saveButton').on('click', function(event) {
 
                 event.preventDefault();
-                let formData = $('#collageForm').serialize();
+                let formData = $('#teacherForm').serialize();
                 button.setAttribute("data-kt-indicator", "on");
                 $.ajax({
 
-                    url: "{{route('teacher.store')}}",
+                    url: "{{ route('teacher.store') }}",
                     type: 'POST',
                     data: formData,
                     success: function(response) {
@@ -97,6 +98,10 @@
                         name: 'location'
                     },
                     {
+                        data: 'courses',
+                        name: 'courses'
+                    },
+                    {
                         data: 'created_at',
                         name: 'created_at'
                     },
@@ -115,16 +120,33 @@
 
         });
 
-        let editTeacher = (name, email, user_id, collage_id, conatact, address) => {
+        let editTeacher = (name, email, user_id, teacher_id, conatact, address, collage_id, courses) => {
 
 
-            $('#modalTitle').html("Edit a collage");
+            $('#modalTitle').html("Edit a Teacher");
             $('#userId').val(user_id);
             $('#name').val(name);
             $('#email').val(email);
-            $('#collageId').val(collage_id);
+            $('#teacherId').val(teacher_id);
+            $('#collageSelectId').val(collage_id).trigger('change');
             $('#contact').val(conatact);
             $('#address').val(address);
+
+
+            let courseArray = [courses];
+
+            let newArr  =  courseArray[0].split(',').map(Number);
+
+            console.log(newArr);
+
+            $('#courseSelectId option').each(function() {
+                if (newArr.includes(parseInt($(this).val()))) {
+                    $(this).prop('selected', true);
+                }
+            });
+
+            // Trigger the change event to update the select2 control
+            $('#courseSelectId').trigger('change');
 
 
         }
