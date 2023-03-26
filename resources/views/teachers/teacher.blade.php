@@ -61,6 +61,14 @@
                         $('#teacherForm')[0].reset();
                         $('#teacherModal').modal('hide');
                         $('#teacherTable').DataTable().ajax.reload();
+
+                        $('#error_name').html('');
+                        $('#error_email').html('');
+                        $('#error_address').html('');
+                        $('#error_contact').html('');
+                        $('#error_collage_id').html('');
+                        $('#error_course_name').html('');
+
                         toastr.success(response);
                     },
                     error: function(error) {

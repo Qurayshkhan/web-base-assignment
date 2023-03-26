@@ -42,8 +42,10 @@ class TeacherRepository
 
         );
 
-        $courses = $this->course->whereIn('id', $data['course_name'])->get();
+        $courses = $data['course_name'];
 
+
+        $teacher->courses()->detach();
 
         $teacher->courses()->attach($courses);
 

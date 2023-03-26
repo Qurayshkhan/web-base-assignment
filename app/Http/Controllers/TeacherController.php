@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TeacherRequest;
 use App\Models\Collage;
 use App\Models\Course;
 use App\Services\TeacherService;
@@ -29,7 +30,7 @@ class TeacherController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(TeacherRequest $request)
     {
 
        return $this->teacherService->createAndUpdateTeacher($request->all());

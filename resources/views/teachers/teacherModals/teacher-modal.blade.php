@@ -78,6 +78,7 @@
                                 <option value="{{ $collage->id }}">{{ $collage->user->name }}</option>
                             @endforeach
                         </select>
+                        <span id="error_collage_id" class="text-danger"></span>
                     </div>
                     <div class="fv-row mb-7">
 
@@ -90,10 +91,9 @@
                                 <option value="{{ $course->id }}">{{ $course->name }}</option>
                             @endforeach
                         </select>
+                        <span id="error_course_name" class="text-danger"></span>
                     </div>
                 </form>
-
-
             </div>
 
             <div class="modal-footer">
