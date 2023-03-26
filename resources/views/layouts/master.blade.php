@@ -10,8 +10,9 @@
     <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
-    <link href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css"/>
-    <title>{{$title ?? ''}}</title>
+    <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
+        type="text/css" />
+    <title>{{ $title ?? '' }}</title>
 </head>
 
 <body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed aside-fixed aside-secondary-disabled">
@@ -40,7 +41,8 @@
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="{{route('home')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+                        <a href="{{ route('home') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                            title="Dashboard">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fas fa-home fs-1 text-light"></i>
@@ -52,7 +54,8 @@
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="{{route('users')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Users">
+                        <a href="{{ route('users') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                            title="Users">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fas fa-user-friends fs-1 text-light"></i>
@@ -64,7 +67,8 @@
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="{{route('collage')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Collages">
+                        <a href="{{ route('collage') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                            title="Collages">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fas fa-university fs-1 text-light"></i>
@@ -76,7 +80,8 @@
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="{{route('teacher')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Teachers">
+                        <a href="{{ route('teacher') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                            title="Teachers">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fas fa-chalkboard-teacher fs-1 text-light"></i>
@@ -88,7 +93,8 @@
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="{{route('students')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Students">
+                        <a href="{{ route('students') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                            title="Students">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fa-solid fa-graduation-cap text-light fs-1"></i>
@@ -98,7 +104,21 @@
                         </a>
                     </div>
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
-                        <a href="{{route('get.roles')}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Manage User">
+
+
+                        <a href="{{ route('course') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                            title="Courses">
+                            <span class="menu-link menu-center">
+                                <span class="menu-icon me-0">
+                                    <i class="fa-solid fa-book-open text-light fs-1"></i>
+                                </span>
+
+                            </span>
+                        </a>
+                    </div>
+                    <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
+                        <a href="{{ route('get.roles') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                            title="Manage User">
                             <span class="menu-link menu-center">
                                 <span class="menu-icon me-0">
                                     <i class="fas fa-user-cog fs-1 text-light"></i>
@@ -188,10 +208,11 @@
                                                 <!--end::Avatar-->
                                                 <!--begin::Username-->
                                                 <div class="d-flex flex-column">
-                                                    <div class="fw-bold d-flex align-items-center fs-5">{{auth()->user()->name}}
+                                                    <div class="fw-bold d-flex align-items-center fs-5">
+                                                        {{ auth()->user()->name }}
                                                     </div>
                                                     <a href="#"
-                                                        class="fw-semibold text-muted text-hover-primary fs-7">{{auth()->user()->email}}</a>
+                                                        class="fw-semibold text-muted text-hover-primary fs-7">{{ auth()->user()->email }}</a>
                                                 </div>
                                                 <!--end::Username-->
                                             </div>
@@ -293,9 +314,19 @@
 
 
 
-<script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
-<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
-<script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
+    <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
+    <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+
+
+
+
+
+
+
+
+
+
     @yield('script')
 
 </body>

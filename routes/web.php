@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CollageController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
@@ -82,9 +83,16 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/add-teacher', [TeacherController::class, 'store'])->name('teacher.store');
 
+
+    // students
     Route::get('/students', [StudentController::class, 'index'])->name('students');
 
     Route::get('/get-student', [StudentController::class, 'getStudents'])->name('get.student');
     Route::post('/store-student', [StudentController::class, 'store'])->name('store.student');
+
+
+
+    Route::get('/course', [CourseController::class, 'index'])->name('course');
+    Route::post('/assignment-upload', [CourseController::class, 'uploadAssignment'])->name('course.assignment');
 
 });
