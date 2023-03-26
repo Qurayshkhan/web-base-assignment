@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Collage;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\User;
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Teacher::class)->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Course::class)->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Collage::class)->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('avatar')->nullable();
             $table->string('degree_title')->nullable();
             $table->string('roll_number')->nullable();

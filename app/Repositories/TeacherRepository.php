@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\User;
-use DataTables;;
+use DataTables;
 
 class TeacherRepository
 {
