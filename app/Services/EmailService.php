@@ -11,4 +11,8 @@ class EmailService {
             $user->notify(new ResetPasswordNotification($user, $url));
         }
 
+        public function assignmentNotification(){
+
+        }
+
 }
