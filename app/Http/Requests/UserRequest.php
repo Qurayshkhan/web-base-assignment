@@ -26,6 +26,8 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$this->id,
+            'user_type' => 'required',
+            'role_id' => 'required'
         ];
     }
 }
