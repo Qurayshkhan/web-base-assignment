@@ -66,7 +66,7 @@
 
                     </div>
 
-
+                    @can(\App\Helpers\Permissions::VIEW_COLLAGE)
                     <div class="fv-row mb-7">
 
                         <label class="required fs-6 fw-semibold mb-2">Select Collage</label>
@@ -80,6 +80,9 @@
                         </select>
                         <span id="error_collage_id" class="text-danger"></span>
                     </div>
+                    @endcan
+
+
                     <div class="fv-row mb-7">
 
                         <label class="required fs-6 fw-semibold mb-2">Select Course</label>

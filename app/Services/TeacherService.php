@@ -24,6 +24,7 @@ class TeacherService
             'name' => $data['name'],
             'email' => $data['email'],
             'user_id' => $data['user_id'],
+
             'collage_id' => $data['collage_id'],
             'location' => $data['location'],
             'contact' => $data['contact'],

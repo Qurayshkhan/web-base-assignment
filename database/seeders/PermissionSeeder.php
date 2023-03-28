@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -21,7 +23,7 @@ class PermissionSeeder extends Seeder
         Role::firstOrCreate(['name' => 'Collage'], ['name' => 'Collage']);
         Role::firstOrCreate(['name' => 'Teacher'], ['name' => 'Teacher']);
         Role::firstOrCreate(['name' => 'Student'], ['name' => 'Student']);
-        Role::firstOrCreate(['name' => 'Admin'], ['name' => 'Admin']);
+       $admin = Role::firstOrCreate(['name' => 'Admin'], ['name' => 'Admin']);
 
         $permissions =
             [
@@ -64,5 +66,20 @@ class PermissionSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
+      $admin->syncPermissions($permissions);
+      $user = User::firstOrCreate(
+            [
+                'email' => 'admin@gmail.com'
+            ],
+            [
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('admin123'),
+            ]
+
+        );
+
+        $user->syncRoles($admin);
+
     }
 }

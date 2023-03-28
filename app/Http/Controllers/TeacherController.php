@@ -26,6 +26,7 @@ class TeacherController extends Controller
 
         $courses = $this->course->get();
         $collages = $this->collage->get();
+
         return view('teachers.teacher', compact('courses', 'collages'));
     }
 

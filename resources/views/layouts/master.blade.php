@@ -51,32 +51,41 @@
                             </span>
                         </a>
                     </div>
-                    <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
+                    @can(\App\Helpers\Permissions::VIEW_USER)
+                        <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
-                        <a href="{{ route('users') }}" data-bs-toggle="tooltip" data-bs-placement="right"
-                            title="Users">
-                            <span class="menu-link menu-center">
-                                <span class="menu-icon me-0">
-                                    <i class="fas fa-user-friends fs-1 text-light"></i>
+                            <a href="{{ route('users') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                                title="Users">
+                                <span class="menu-link menu-center">
+                                    <span class="menu-icon me-0">
+                                        <i class="fas fa-user-friends fs-1 text-light"></i>
+                                    </span>
+
                                 </span>
-
-                            </span>
-                        </a>
-                    </div>
-                    <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
+                            </a>
+                        </div>
+                    @endcan
 
 
-                        <a href="{{ route('collage') }}" data-bs-toggle="tooltip" data-bs-placement="right"
-                            title="Collages">
-                            <span class="menu-link menu-center">
-                                <span class="menu-icon me-0">
-                                    <i class="fas fa-university fs-1 text-light"></i>
+                    @can(\App\Helpers\Permissions::VIEW_COLLAGE)
+                        <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
+
+
+                            <a href="{{ route('collage') }}" data-bs-toggle="tooltip" data-bs-placement="right"
+                                title="Collages">
+                                <span class="menu-link menu-center">
+                                    <span class="menu-icon me-0">
+                                        <i class="fas fa-university fs-1 text-light"></i>
+                                    </span>
+
                                 </span>
+                            </a>
+                        </div>
+                    @endcan
 
-                            </span>
-                        </a>
-                    </div>
+
+                    @can(\App\Helpers\Permissions::VIEW_TEACHER)
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
@@ -90,6 +99,10 @@
                             </span>
                         </a>
                     </div>
+                    @endcan
+
+
+                    @can(\App\Helpers\Permissions::VIEW_STUDENT)
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
@@ -103,6 +116,9 @@
                             </span>
                         </a>
                     </div>
+                    @endcan
+
+                    @can(\App\Helpers\Permissions::VIEW_COURSE)
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
 
 
@@ -116,6 +132,9 @@
                             </span>
                         </a>
                     </div>
+                    @endcan
+
+                    @can(\App\Helpers\Permissions::VIEW_ROLE)
                     <div data-kt-menu-placement="right-start" class="menu-item here show py-2">
                         <a href="{{ route('get.roles') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                             title="Manage User">
@@ -127,6 +146,8 @@
                             </span>
                         </a>
                     </div>
+                    @endcan
+
 
                     <!--end::Primary menu-->
                 </div>
