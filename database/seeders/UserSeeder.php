@@ -16,16 +16,16 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::firstOrCreate(
-            [
-                'email' => 'admin@gmail.com'
-            ],
-            [
-                'name' => 'admin',
-                'email' => 'admin@gmail.com',
-                'password' => Hash::make('admin123'),
-            ]
+        // User::firstOrCreate(
+        //     [
+        //         'email' => 'admin@gmail.com'
+        //     ],
+        //     [
+        //         'name' => 'admin',
+        //         'email' => 'admin@gmail.com',
+        //         'password' => Hash::make('admin123'),
+        //     ]
 
-        );
+        // );
     }
 }
