@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('roll_number')->nullable();
             $table->string('contact')->nullable();
             $table->string('location')->nullable();
+            $table->tinyInteger('user_type')->nullable();
             $table->tinyInteger('profile_status')->default(0);
             $table->timestamps();
         });

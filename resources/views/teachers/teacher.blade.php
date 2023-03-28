@@ -125,6 +125,47 @@
 
 
 
+            $(document).on('click', '.delete', function() {
+                var userId = $(this).data('id');
+
+                swal.fire({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this teacher!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancel',
+                        confirmButtonText: 'Delete',
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((isConfirm) => {
+                        if (isConfirm.value) {
+                            $.ajax({
+                                type: "DELETE",
+                                url: "/delete-teacher/" + userId,
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                },
+                                success: function(data) {
+                                    swal.fire("Teacher has been deleted!", {
+                                        icon: "success",
+                                    });
+                                    // reload the data table
+                                    $('#teacherTable').DataTable().ajax.reload();
+                                },
+                                error: function(data) {
+                                    swal.fire("Oops", "Something went wrong!", "error");
+                                }
+                            });
+                        } else {
+                            swal.fire("Teacher deletion cancelled!", {
+                                icon: "info",
+                            });
+                        }
+                    });
+            });
+
+
 
         });
 
@@ -162,6 +203,11 @@
                 $('#teacherForm')[0].reset();
 
             });
+
+
+
+
+
 
 
         }

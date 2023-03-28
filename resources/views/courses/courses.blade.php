@@ -56,6 +56,7 @@
             </table>
         </div>
     </div>
+
 @endsection
 @section('script')
     <script>
@@ -84,10 +85,14 @@
                         $('#kt_modal_upload_form')[0].reset();
                         $('#kt_modal_upload').modal('hide');
                     },
-                    error: function(data) {
-                        console.log(data);
+                    error: function(error) {
+
+                        button.removeAttribute("data-kt-indicator");
                         $('#saveButton').removeClass('spinner spinner-white spinner-right')
                             .prop('disabled', false);
+                            $.each(error.responseJSON.errors, function(key, value) {
+                            $('#error_' + key).html(value);
+                        });
                     }
                 });
             });

@@ -13,9 +13,9 @@
                     <h2>Add New Student</h2>
 
 
-                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <div class="btn btn-sm btn-icon btn-active-color-primary " data-bs-dismiss="modal">
 
-                        <span class="svg-icon svg-icon-1">
+                        <span class="svg-icon svg-icon-1 close">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
@@ -46,7 +46,7 @@
                                 <label class="required fs-5 fw-semibold mb-2">Name</label>
 
 
-                                <input type="text" class="form-control form-control-solid" placeholder=""
+                                <input type="text" class="form-control form-control-solid" placeholder="Enter  name"
                                     name="name" id="name"/>
 
                             </div>
@@ -57,7 +57,7 @@
                                 <label class="required fs-5 fw-semibold mb-2">Email</label>
 
 
-                                <input type="email" class="form-control form-control-solid" placeholder=""
+                                <input type="email" class="form-control form-control-solid" placeholder="Enter email"
                                     name="email" id="email"/>
 
                             </div>
@@ -133,7 +133,7 @@
                                 <label class="fs-5 fw-semibold mb-2">Degree Title</label>
 
 
-                                <input class="form-control form-control-solid" placeholder="" name="degree_title" id="degreeTitle"/>
+                                <input class="form-control form-control-solid" placeholder="Enter degree title" name="degree_title" id="degreeTitle"/>
 
                             </div>
 
@@ -143,7 +143,7 @@
                                 <label class="fs-5 fw-semibold mb-2">Roll Number</label>
 
 
-                                <input class="form-control form-control-solid" placeholder="" name="roll_number" id="rollNumber"/>
+                                <input class="form-control form-control-solid" placeholder="Enter roll number" name="roll_number" id="rollNumber"/>
 
                             </div>
 
@@ -156,7 +156,7 @@
 
                 <div class="modal-footer flex-center">
 
-                    <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal">Discard</button>
+                    <button type="reset" class="btn btn-light me-3 close" data-bs-dismiss="modal">Discard</button>
 
 
                     <button type="submit" id="saveButton" class="btn btn-primary">

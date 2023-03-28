@@ -11,15 +11,17 @@ class AssignmentNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-
+    private $course, $student;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($course, $student)
     {
+        $this->course = $course;
+        $this->student = $student;
     }
 
     /**
@@ -42,9 +44,10 @@ class AssignmentNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
+            ->greeting("Assignment ". $this->course->name)
+            ->line('Hi '. $this->student->user->name. " Your Assignment of ". $this->course->name . " has been uploaded")
             ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->line('Good Luck');
     }
 
     /**

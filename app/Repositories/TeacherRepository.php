@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helpers\Constants;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\User;
@@ -21,26 +22,30 @@ class TeacherRepository
     public function storeTeacher($data)
     {
 
-        $teacher = $this->teacher->updateOrCreate(
-            ['user_id' => $data['user_id']],
-
-            [
-                'user_id' => $data['user_id'],
-                'collage_id' => $data['collage_id'],
-                'location' => $data['location'],
-                'contact' => $data['contact']
-            ]
-        );
-
-        $this->user->updateOrCreate(
+        $user = $this->user->updateOrCreate(
             ['id' => $data['user_id']],
             [
                 'name' => $data['name'],
                 'email' => $data['email'],
+                "remember_token" => $data['remember_token'],
             ]
 
 
         );
+
+
+        $teacher = $this->teacher->updateOrCreate(
+            ['user_id' => $data['user_id']],
+
+            [
+                'user_id' => $user->id,
+                'collage_id' => $data['collage_id'],
+                'location' => $data['location'],
+                'contact' => $data['contact'],
+                'user_type' => Constants::TEACHER
+            ]
+        );
+
 
         $courses = $data['course_name'];
 
@@ -49,7 +54,7 @@ class TeacherRepository
 
         $teacher->courses()->attach($courses);
 
-        return "Teacher update successfully";
+        return $user;
     }
 
 
@@ -81,12 +86,19 @@ class TeacherRepository
 
                     $actionBtn =
                         '<a    onClick="editTeacher(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $teacherId . '`, `' . $row->contact . '`, `' . $row->location . '`, `' .  $collageId . '` , `' . implode(',', $courseNames) . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#teacherModal">Edit</a>
-                        <button class="delete btn btn-danger btn-sm" data-id="' . $teacherId . '">Delete</button>
+                        <button class="delete btn btn-danger btn-sm" data-id="' . $userId . '">Delete</button>
                        ';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
+
+
+    public function teacherDelete($teacher){
+
+        return $this->user->find($teacher)->delete();
+
     }
 }

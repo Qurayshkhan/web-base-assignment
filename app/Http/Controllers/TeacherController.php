@@ -32,7 +32,6 @@ class TeacherController extends Controller
 
     public function store(TeacherRequest $request)
     {
-
        return $this->teacherService->createAndUpdateTeacher($request->all());
     }
 
@@ -40,6 +39,13 @@ class TeacherController extends Controller
     public function getTeacherList(Request $request){
 
       return $this->teacherService->teacherList($request);
+
+    }
+
+
+    public function destroy($teacher){
+
+        return $this->teacherService->teacherDelete($teacher);
 
     }
 }
