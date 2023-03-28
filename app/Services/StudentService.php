@@ -27,7 +27,16 @@ class StudentService
 
     public function updateAndCreateStudent($data){
 
-        return $this->studentRepository->updateOrCreateStudent($data);
+        if ($data['id']) {
+            # code...
+            $this->studentRepository->updateOrCreateStudent($data);
+            return "Student update successfully";
+        }else
+        {
+            $this->studentRepository->updateOrCreateStudent($data);
+            return "Student add successfully";
+        }
+
 
     }
 

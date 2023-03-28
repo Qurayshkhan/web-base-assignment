@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Collage;
 use App\Models\Course;
+use App\Models\User;
 use App\Services\StudentService;
 use Illuminate\Http\Request;
 
@@ -39,6 +40,12 @@ class StudentController extends Controller
 
 
         return $this->studentService->updateAndCreateStudent($request->all());
+
+    }
+
+    public function deleteStudent($student){
+
+        return User::find($student)->delete();
 
     }
 

@@ -48,7 +48,7 @@ class StudentRepository
 
                     $actionBtn =
                         '<a    onClick="editStudent(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $studentId . '`, `' . $row->contact . '`, `' . $row->location . '`, `' .  $collageId . '` , `' . implode(',', $courseNames) . '`, `' . $degreeTitle . '`, `' . $rollNumber . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#studentModal">Edit</a>
-                        <button class="delete btn btn-danger btn-sm" data-id="' . $studentId . '">Delete</button>
+                        <button class="delete btn btn-danger btn-sm" data-id="' . $userId  . '">Delete</button>
                        ';
                     return $actionBtn;
                 })
@@ -60,20 +60,7 @@ class StudentRepository
     public function updateOrCreateStudent($data)
     {
 
-        $student = $this->student->updateOrCreate(
-            ['user_id' => $data['user_id']],
-
-            [
-                'user_id' => $data['user_id'],
-                'collage_id' => $data['collage_id'],
-                'location' => $data['location'],
-                'contact' => $data['contact'],
-                'degree_title' => $data['degree_title'],
-                'roll_number' => $data['roll_number'],
-            ]
-        );
-
-        $this->user->updateOrCreate(
+      $user = $this->user->updateOrCreate(
             ['id' => $data['user_id']],
             [
                 'name' => $data['name'],
@@ -83,6 +70,21 @@ class StudentRepository
 
         );
 
+        $student = $this->student->updateOrCreate(
+            ['user_id' => $data['user_id']],
+
+            [
+                'user_id' => $user->id,
+                'collage_id' => $data['collage_id'],
+                'location' => $data['location'],
+                'contact' => $data['contact'],
+                'degree_title' => $data['degree_title'],
+                'roll_number' => $data['roll_number'],
+            ]
+        );
+
+
+
         $courses = $data['course_id'];
 
 
@@ -90,6 +92,6 @@ class StudentRepository
 
         $student->courses()->attach($courses);
 
-        return "Student update successfully";
+        return true;
     }
 }

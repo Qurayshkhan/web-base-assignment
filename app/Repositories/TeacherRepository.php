@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helpers\Constants;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\User;
@@ -40,7 +41,8 @@ class TeacherRepository
                 'user_id' => $user->id,
                 'collage_id' => $data['collage_id'],
                 'location' => $data['location'],
-                'contact' => $data['contact']
+                'contact' => $data['contact'],
+                'user_type' => Constants::TEACHER
             ]
         );
 

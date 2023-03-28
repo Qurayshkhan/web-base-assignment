@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('content')
-   @include('students.student_modals.student-modal')
+    @include('students.student_modals.student-modal')
     <div class="card shadow-sm">
         <div class="card-header">
             <h2 class="card-title">Students</h2>
             <div class="card-toolbar">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#studentModal">
+                <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#studentModal">
                     <i class="fa-solid fa-plus"></i>
                     Add Student
                 </button>
@@ -53,7 +53,7 @@
                 button.setAttribute("data-kt-indicator", "on");
                 $.ajax({
 
-                    url: "{{route('store.student')}}",
+                    url: "{{ route('store.student') }}",
                     type: 'POST',
                     data: formData,
                     success: function(response) {
@@ -126,9 +126,63 @@
 
 
 
+
+            $(document).on('click', '.delete', function() {
+                var userId = $(this).data('id');
+
+                swal.fire({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this student!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancel',
+                        confirmButtonText: 'Delete',
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((isConfirm) => {
+                        if (isConfirm.value) {
+                            $.ajax({
+                                type: "DELETE",
+                                url: "/delete-student/" + userId,
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                },
+                                success: function(data) {
+                                    swal.fire("Student has been deleted!", {
+                                        icon: "success",
+                                    });
+                                    // reload the data table
+                                    $('#studentTable').DataTable().ajax.reload();
+                                },
+                                error: function(data) {
+                                    swal.fire("Oops", "Something went wrong!", "error");
+                                }
+                            });
+                        } else {
+                            swal.fire("Student deletion cancelled!", {
+                                icon: "info",
+                            });
+                        }
+                    });
+            });
+
+
+
+
+
+
+            $('.close').on('click', function() {
+
+                $('#studentForm')[0].reset();
+
+            });
+
+
         });
 
-        let editStudent = (name, email, user_id, student_id, conatact, address, collage_id, courses, degree_title, roll_number) => {
+        let editStudent = (name, email, user_id, student_id, conatact, address, collage_id, courses, degree_title,
+            roll_number) => {
 
 
             $('#modalTitle').html("Edit a Student");
@@ -157,10 +211,6 @@
 
             // Trigger the change event to update the select2 control
             $('#courseSelectId').trigger('change');
-
-
-
-
 
         }
     </script>

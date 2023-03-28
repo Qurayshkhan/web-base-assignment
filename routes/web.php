@@ -92,9 +92,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/get-student', [StudentController::class, 'getStudents'])->name('get.student');
     Route::post('/store-student', [StudentController::class, 'store'])->name('store.student');
 
+    Route::delete('/delete-student/{student}', [StudentController::class, 'deleteStudent'])->name('delete.student');
 
 
     Route::get('/course', [CourseController::class, 'index'])->name('course');
+    Route::post('store-update-course', [CourseController::class, 'store'])->name('cours.store');
+
     Route::post('/assignment-upload', [CourseController::class, 'uploadAssignment'])->name('course.assignment');
 
 });
