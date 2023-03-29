@@ -22,7 +22,9 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Created At</th>
+                        @canany([\App\Helpers\Permissions::EDIT_USER, \App\Helpers\Permissions::DELETE_USER])
                         <th>Action</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -102,13 +104,14 @@
                         data: 'created_at',
                         name: 'created_at'
                     },
-
+                    @canany([\App\Helpers\Permissions::EDIT_USER, \App\Helpers\Permissions::DELETE_USER])
                     {
                         data: 'action',
                         name: 'action',
                         orderable: true,
                         searchable: true
                     },
+                    @endcanany
                 ]
             });
 

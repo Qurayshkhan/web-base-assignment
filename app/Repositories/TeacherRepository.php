@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 use App\Helpers\Constants;
+use App\Helpers\Permissions;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Models\User;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherRepository
 {
@@ -84,10 +86,16 @@ class TeacherRepository
                     $collageId = $row->collage_id;
                     $courseNames = $row->courses->pluck('id')->toArray();
 
-                    $actionBtn =
-                        '<a    onClick="editTeacher(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $teacherId . '`, `' . $row->contact . '`, `' . $row->location . '`, `' .  $collageId . '` , `' . implode(',', $courseNames) . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#teacherModal">Edit</a>
-                        <button class="delete btn btn-danger btn-sm" data-id="' . $userId . '">Delete</button>
-                       ';
+                    $actionBtn = "";
+                    if (Auth::user()->can(Permissions::EDIT_TEACHER)) {
+                        $actionBtn .= '<a onClick="editTeacher(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $teacherId . '`, `' . $row->contact . '`, `' . $row->location . '`, `' .  $collageId . '` , `' . implode(',', $courseNames) . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#teacherModal">Edit</a> ';
+                    }
+
+                    if (Auth::user()->can(Permissions::DELETE_TEACHER)) {
+                        $actionBtn .= '<button class="delete btn btn-danger btn-sm" data-id="' . $userId . '">Delete</button>
+                        ';
+                    }
+
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -96,9 +104,9 @@ class TeacherRepository
     }
 
 
-    public function teacherDelete($teacher){
+    public function teacherDelete($teacher)
+    {
 
         return $this->user->find($teacher)->delete();
-
     }
 }

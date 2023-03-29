@@ -1,15 +1,22 @@
+@php
+    $title = "Teachers";
+@endphp
 @extends('layouts.master')
 @section('content')
     @include('teachers.teacherModals.teacher-modal')
     <div class="card shadow-sm">
         <div class="card-header">
             <h2 class="card-title">Teacher</h2>
-            <div class="card-toolbar">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#teacherModal">
-                    <i class="fa-solid fa-plus"></i>
-                    Add Teacher
-                </button>
-            </div>
+           @can(\App\Helpers\Permissions::CREATE_TEACHER)
+
+           <div class="card-toolbar">
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#teacherModal">
+                   <i class="fa-solid fa-plus"></i>
+                   Add Teacher
+               </button>
+
+           </div>
+           @endcan
         </div>
         <div class="card-body">
             <table id="teacherTable" class="table table-row-bordered gy-5">
@@ -21,7 +28,10 @@
                         <th>Address</th>
                         <th>Courses</th>
                         <th>Created At</th>
+                        @canany([\App\Helpers\Permissions::EDIT_TEACHER, \App\Helpers\Permissions::DELETE_TEACHER])
+
                         <th>Action</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -114,12 +124,15 @@
                         name: 'created_at'
                     },
 
+                    @canany([\App\Helpers\Permissions::EDIT_TEACHER , \App\Helpers\Permissions::DELETE_TEACHER])
                     {
+
                         data: 'action',
                         name: 'action',
                         orderable: true,
                         searchable: true
                     },
+                    @endcan
                 ]
             });
 

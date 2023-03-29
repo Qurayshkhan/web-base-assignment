@@ -1,15 +1,21 @@
+@php
+    $title = "Students";
+@endphp
 @extends('layouts.master')
 @section('content')
     @include('students.student_modals.student-modal')
     <div class="card shadow-sm">
         <div class="card-header">
             <h2 class="card-title">Students</h2>
+            @can(\App\Helpers\Permissions::CREATE_STUDENT)
             <div class="card-toolbar">
                 <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#studentModal">
                     <i class="fa-solid fa-plus"></i>
                     Add Student
                 </button>
             </div>
+            @endcan
+
         </div>
         <div class="card-body">
             <table id="studentTable" class="table table-row-bordered gy-5">
@@ -21,7 +27,10 @@
                         <th>Address</th>
                         <th>Courses</th>
                         <th>Created At</th>
-                        <th>Action</th>
+                       @canany([\App\Helpers\Permissions::EDIT_STUDENT, \App\Helpers\Permissions::DELETE_STUDENT])
+
+                       <th>Action</th>
+                       @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -114,12 +123,14 @@
                         name: 'created_at'
                     },
 
+                    @canany([\App\Helpers\Permissions::EDIT_STUDENT, \App\Helpers\Permissions::DELETE_STUDENT])
                     {
                         data: 'action',
                         name: 'action',
                         orderable: true,
                         searchable: true
                     },
+                    @endcanany
                 ]
             });
 

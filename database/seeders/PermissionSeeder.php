@@ -38,20 +38,24 @@ class PermissionSeeder extends Seeder
                 'view_collage',
                 'edit_collage',
                 'delete_collage',
+                "create_collage",
 
                 'student',
                 'view_student',
                 'edit_student',
+                'create_student',
                 'delete_student',
 
                 'teacher',
                 'view_teacher',
+                'create_teacher',
                 'edit_teacher',
                 'delete_teacher',
 
                 'course',
                 'view_course',
                 'edit_course',
+                'create_course',
                 'delete_course',
                 'upload_file',
 

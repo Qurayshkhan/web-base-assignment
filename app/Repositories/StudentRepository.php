@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Student;
 use App\Models\User;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class StudentRepository
 {
@@ -46,10 +47,16 @@ class StudentRepository
                     $rollNumber = $row->roll_number;
                     $courseNames = $row->courses->pluck('id')->toArray();
 
-                    $actionBtn =
-                        '<a    onClick="editStudent(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $studentId . '`, `' . $row->contact . '`, `' . $row->location . '`, `' .  $collageId . '` , `' . implode(',', $courseNames) . '`, `' . $degreeTitle . '`, `' . $rollNumber . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#studentModal">Edit</a>
+                    $actionBtn = "";
+                        if (Auth::user()->can(\App\Helpers\Permissions::EDIT_STUDENT)) {
+                            $actionBtn .= '<a onClick="editStudent(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $studentId . '`, `' . $row->contact . '`, `' . $row->location . '`, `' .  $collageId . '` , `' . implode(',', $courseNames) . '`, `' . $degreeTitle . '`, `' . $rollNumber . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#studentModal">Edit</a> ';
+                        }
+                        if (Auth::user()->can(\App\Helpers\Permissions::DELETE_STUDENT)) {
+                            $actionBtn .= '
                         <button class="delete btn btn-danger btn-sm" data-id="' . $userId  . '">Delete</button>
                        ';
+                        }
+
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
