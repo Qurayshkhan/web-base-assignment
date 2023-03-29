@@ -319,7 +319,7 @@
                                         class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
                                         <input class="form-check-input" id="roles" type="checkbox"
                                             value="roles" name="permissions[]" />
-                                        <span class="form-check-label">Course</span>
+                                        <span class="form-check-label">Roles</span>
                                     </label>
                                     <label
                                         class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
@@ -346,7 +346,7 @@
                                     <label
                                         class="form-check form-check-sm form-check-custom form-check-solid">
                                         <input class="form-check-input" id="edit_role" type="checkbox"
-                                            value="edit_course" name="permissions[]" />
+                                            value="edit_role" name="permissions[]" />
                                         <span class="form-check-label">edit</span>
                                     </label>
 

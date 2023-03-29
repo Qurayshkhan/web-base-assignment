@@ -1,5 +1,5 @@
 @php
-    $title = "Roles";
+    $title = 'Roles';
 @endphp
 @extends('layouts.master')
 @section('content')
@@ -7,12 +7,15 @@
     <div class="card shadow-sm">
         <div class="card-header">
             <h3 class="card-title">Roles</h3>
-            <div class="card-toolbar">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
-                    <i class="fa-solid fa-plus"></i>
-                    Add Role
-                </button>
-            </div>
+            @can(\App\Helpers\Permissions::CREATE_ROLE)
+                <div class="card-toolbar">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Role
+                    </button>
+                </div>
+            @endcan
+
         </div>
         <div class="card-body">
             <table id="rolesTabel" class="table table-row-bordered gy-5">
@@ -21,7 +24,10 @@
                         <th>Name</th>
                         <th>Permission</th>
                         <th>Created At</th>
-                        <th>Action</th>
+                       @canany([\App\Helpers\Permissions::EDIT_ROLE, \App\Helpers\Permissions::DELETE_ROLE])
+                       <th>Action</th>
+
+                       @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -97,12 +103,15 @@
                         data: 'created_at',
                         name: 'created_at'
                     },
+
+                    @canany([\App\Helpers\Permissions::EDIT_ROLE, \App\Helpers\Permissions::DELETE_ROLE])
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         searchable: false
                     },
+                    @endcanany
                 ]
             });
 

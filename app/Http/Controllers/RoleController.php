@@ -6,6 +6,7 @@ use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
@@ -68,8 +69,14 @@ class RoleController extends Controller
                     return $badges;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="#" data-role-id="' . $row->id . '" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a class="delete btn btn-danger btn-sm" data-id="' . $row->id . '">Delete</a>';
+                    $btn = "";
+                    if (Auth::user()->can(\App\Helpers\Permissions::EDIT_ROLE)) {
+                        $btn .= '<a href="#" data-role-id="' . $row->id . '" class="edit btn btn-primary btn-sm">Edit</a>';
+                    }
+                    if (Auth::user()->can(\App\Helpers\Permissions::DELETE_ROLE)) {
+                        $btn .= ' <a class="delete btn btn-danger btn-sm" data-id="' . $row->id . '">Delete</a>';
+                    }
+
                     return $btn;
                 })->rawColumns(['action', 'permissions'])
                 ->make(true);
@@ -94,6 +101,5 @@ class RoleController extends Controller
     {
 
         return Role::findById($role)->delete();
-
     }
 }

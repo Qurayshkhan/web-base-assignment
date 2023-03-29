@@ -1,15 +1,21 @@
+@php
+    $title = 'Collages';
+@endphp
 @extends('layouts.master')
 @section('content')
     @include('collage.collage-modal')
     <div class="card shadow-sm">
         <div class="card-header">
             <h2 class="card-title">Collages</h2>
-            {{-- <div class="card-toolbar">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#collageModal">
-                    <i class="fa-solid fa-plus"></i>
-                    Edit Information
-                </button>
-            </div> --}}
+
+            @can(\App\Helpers\Permissions::CREATE_COLLAGE)
+                <div class="card-toolbar">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#collageModal">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Collage
+                    </button>
+                </div>
+            @endcan
         </div>
         <div class="card-body">
             <table id="collageTabel" class="table table-row-bordered gy-5">
@@ -20,7 +26,9 @@
                         <th>Contact</th>
                         <th>Address</th>
                         <th>Created At</th>
-                        <th>Action</th>
+                        @canany([\App\Helpers\Permissions::EDIT_COLLAGE, \App\Helpers\Permissions::DELETE_COLLAGE])
+                            <th>Action</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -107,13 +115,14 @@
                         data: 'created_at',
                         name: 'created_at'
                     },
-
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: true,
-                        searchable: true
-                    },
+                    @canany([\App\Helpers\Permissions::EDIT_COLLAGE, \App\Helpers\Permissions::DELETE_COLLAGE])
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: true,
+                            searchable: true
+                        },
+                    @endcan
                 ]
             });
 

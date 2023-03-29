@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository
@@ -64,10 +65,15 @@ class UserRepository
                     $email = $row->email;
                     $roleId = $row->roles()->pluck('id')->first();
 
-                    $actionBtn =
-                        '<a    onClick="editUser(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $roleId . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#userModal">Edit</a>
-                        <button class="delete btn btn-danger btn-sm" data-id="' . $userId . '">Delete</button>
-                       ';
+                    $actionBtn = "";
+
+                    if (Auth::user()->can(\App\Helpers\Permissions::EDIT_USER)) {
+                        $actionBtn .= '<a    onClick="editUser(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $roleId . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#userModal">Edit</a> ';
+                    }
+                    if (Auth::user()->can(\App\Helpers\Permissions::DELETE_USER)) {
+                        $actionBtn .=  '<button class="delete btn btn-danger btn-sm" data-id="' . $userId . '">Delete</button>';
+                    }
+
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])

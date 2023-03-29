@@ -6,6 +6,7 @@ namespace App\Repositories;
 use App\Models\Collage;
 use App\Models\User;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class CollageRepository
 {
@@ -30,12 +31,10 @@ class CollageRepository
             );
 
             return "Collage update successfully";
-        }else{
+        } else {
 
             return "Collage add successfully";
         }
-
-
     }
 
     public function getCollageList($request)
@@ -58,10 +57,15 @@ class CollageRepository
                     $name = $row->user->name;
                     $email = $row->user->email;
 
-                    $actionBtn =
-                        '<a    onClick="editCollage(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $collageId . '`, `' . $row->contact . '`, `' . $row->location . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#collageModal">Edit</a>
-                        <button class="delete btn btn-danger btn-sm" data-id="' . $collageId . '">Delete</button>
-                       ';
+                    $actionBtn = "";
+                    if (Auth::user()->can(\App\Helpers\Permissions::EDIT_COLLAGE)) {
+                        $actionBtn .= '<a    onClick="editCollage(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $collageId . '`, `' . $row->contact . '`, `' . $row->location . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#collageModal">Edit</a> ';
+                    }
+
+                    if (Auth::user()->can(\App\Helpers\Permissions::DELETE_COLLAGE)) {
+                        $actionBtn .=     '<button class="delete btn btn-danger btn-sm" data-id="' . $collageId . '">Delete</button>';
+                    }
+
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
