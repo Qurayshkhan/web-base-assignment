@@ -4,13 +4,14 @@
 @endphp
 @extends('layouts.master')
 @section('content')
+    @include('courses.course_modals.assignment-modal')
     @include('courses.course_modals.course-modal')
     <div class="card shadow-sm">
         <div class="card-header">
             <h2 class="card-title">Courses</h2>
             @can(\App\Helpers\Permissions::CREATE_COURSE)
                 <div class="card-toolbar">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_upload">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal">
                         <i class="fa-solid fa-plus"></i>
                         Add Course
                     </button>
@@ -19,7 +20,7 @@
 
         </div>
         <div class="card-body text-center">
-            <table id="studentTable" class="table table-row-bordered gy-5">
+            <table class="table table-row-bordered gy-5">
                 <thead>
                     <tr class="fw-semibold fs-6 text-muted">
                         <th>Name</th>
@@ -59,12 +60,12 @@
                                     </button>
                                 @endcan
                                 @can(\App\Helpers\Permissions::EDIT_COURSE)
-                                    <button class="btn btn-primary">Edit</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal" onclick="editCourse('{{$course->id}}' , '{{$course->name }}')">Edit</button>
                                 @endcan
                                 @canany(\App\Helpers\Permissions::DELETE_COURSE)
                                     <button class="btn btn-danger">delete</button>
                                 @endcan
-                </td>
+                            </td>
                         </tr>
                     @endforeach
 
@@ -111,10 +112,63 @@
                     }
                 });
             });
+
+
+
+
+
+
+
+
         });
 
         function uploadFile(course_id) {
             $('#courseId').val(course_id);
+        }
+
+        function editCourse(){
+
+        }
+        function saveCourse(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Get the form data
+            var formData = $('#courseForm').serialize();
+
+            // Send the AJAX request
+            $.ajax({
+                url: "{{ route('store.update.course') }}",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                beforeSend: function() {
+                    // Disable the submit button and show a loading spinner
+                    $('#saveButtonCourse').attr('disabled', true);
+                    $('#saveButtonCourse .indicator-label').hide();
+                    $('#saveButtonCourse .indicator-progress').show();
+                },
+                success: function(response) {
+                    // Handle the response from the server
+                    toastr.success(response.message); // Replace this with your own code to update the UI
+                    $('#error_name').html('');
+                    // Hide modal after 2 seconds
+                    setTimeout(function() {
+                        $('#courseModal').modal('hide');
+                    }, 2000);
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    $.each(xhr.responseJSON.errors, function(key, value) {
+                        $('#error_' + key).html(value[0]);
+                    });
+                },
+                complete: function() {
+                    // Re-enable the submit button and hide the loading spinner
+                    $('#saveButtonCourse').attr('disabled', false);
+                    $('#saveButtonCourse .indicator-label').show();
+                    $('#saveButtonCourse .indicator-progress').hide();
+                }
+            });
         }
     </script>
 @endsection

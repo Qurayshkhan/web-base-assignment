@@ -10,6 +10,8 @@ class Course extends Model
 {
     use HasFactory, Notifiable;
 
+    protected $fillable = ['id', 'name'];
+
     public function students()
     {
         return $this->belongsToMany(Student::class);

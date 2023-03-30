@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Constants;
 use App\Http\Requests\RoleRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use DataTables;
@@ -40,8 +42,12 @@ class RoleController extends Controller
 
     public function getRolesWithPermission(Request $request)
     {
+        if (auth()->user()->user_type == Constants::COLLAGE) {
+            $roles = auth()->user()->roles()->with('permissions')->get();
+        } else {
+            $roles = Role::with('permissions')->get();
+        }
 
-        $roles = Role::with('permissions')->get();
         if ($request->ajax()) {
             $data = $roles;
             return DataTables::of($data)
@@ -82,6 +88,7 @@ class RoleController extends Controller
                 ->make(true);
         }
     }
+
 
 
 

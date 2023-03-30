@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'remember_token',
+        'user_type'
 
     ];
 
@@ -50,7 +51,7 @@ class User extends Authenticatable
     public function role()
     {
 
-        return $this->belongsTo(Role::class);
+        return $this->belongsToMany(Role::class);
     }
 
     public function collage()

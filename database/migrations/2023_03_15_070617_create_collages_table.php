@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('contact')->nullable();
             $table->string('location')->nullable();
-            $table->tinyInteger('user_type')->nullable();
             $table->tinyInteger('profile_status')->default(0);
             $table->timestamps();
         });
