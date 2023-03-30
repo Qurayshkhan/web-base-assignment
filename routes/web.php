@@ -94,10 +94,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::delete('/delete-student/{student}', [StudentController::class, 'deleteStudent'])->name('delete.student');
 
-
+    // course
     Route::get('/course', [CourseController::class, 'index'])->name('course');
     Route::post('store-update-course', [CourseController::class, 'store'])->name('cours.store');
 
     Route::post('/assignment-upload', [CourseController::class, 'uploadAssignment'])->name('course.assignment');
+
+    Route::post('/add-update-course', [CourseController::class, 'addEditCourse'])->name('store.update.course');
 
 });

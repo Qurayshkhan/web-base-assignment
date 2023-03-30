@@ -26,6 +26,10 @@ class TeacherController extends Controller
 
         $courses = $this->course->get();
         $collages = $this->collage->get();
+        if (auth()->user()->user_type == \App\Helpers\Constants::COLLAGE) {
+
+            $collages = $this->collage->where('user_id', auth()->user()->id)->get();
+        }
 
         return view('teachers.teacher', compact('courses', 'collages'));
     }
@@ -33,20 +37,20 @@ class TeacherController extends Controller
 
     public function store(TeacherRequest $request)
     {
-       return $this->teacherService->createAndUpdateTeacher($request->all());
+        return $this->teacherService->createAndUpdateTeacher($request->all());
     }
 
 
-    public function getTeacherList(Request $request){
+    public function getTeacherList(Request $request)
+    {
 
-      return $this->teacherService->teacherList($request);
-
+        return $this->teacherService->teacherList($request);
     }
 
 
-    public function destroy($teacher){
+    public function destroy($teacher)
+    {
 
         return $this->teacherService->teacherDelete($teacher);
-
     }
 }

@@ -39,7 +39,7 @@
                             <table class="table align-middle table-row-dashed fs-6 gy-5">
 
                                 <tbody class="text-gray-600 fw-semibold">
-
+                                    @can(\App\Helpers\Permissions::VIEW_USER)
                                     <tr>
 
                                         <td class="text-gray-800">User Management</td>
@@ -92,6 +92,8 @@
                                         </td>
 
                                     </tr>
+                                    @endcan
+                                    @can(\App\Helpers\Permissions::VIEW_COLLAGE)
                                     <tr>
 
                                         <td class="text-gray-800">Collage Management</td>
@@ -140,6 +142,8 @@
                                         </td>
 
                                     </tr>
+                                    @endcan
+
                                     <tr>
 
                                         <td class="text-gray-800">Teacher Managment</td>

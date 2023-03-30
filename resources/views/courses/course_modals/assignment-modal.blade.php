@@ -1,15 +1,15 @@
-<div class="modal fade" id="courseModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="kt_modal_upload" tabindex="-1" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered mw-650px">
 
         <div class="modal-content">
 
-            <form class="form"  id="courseForm"  onsubmit="saveCourse(event)">
+            <form class="form" action="{{route('course.assignment')}}" id="kt_modal_upload_form" method="POST">
                 @csrf
                 <input type="hidden" name="course_id" id="courseId">
                 <div class="modal-header">
 
-                    <h2 class="fw-bold">Course</h2>
+                    <h2 class="fw-bold">Upload files</h2>
                 </div>
 
 
@@ -19,12 +19,12 @@
 
                         <div class="fv-row mb-7">
 
-                            <label class="required fs-6 fw-semibold mb-2">Name</label>
-                            <input type="text" class="form-control form-control-solid"
-                                placeholder="Enter course name" name="name" value=""
-                                id="CourseId"/>
+                            <label class="required fs-6 fw-semibold mb-2">Upload File</label>
+                            <input type="file" class="form-control form-control-solid"
+                                placeholder="Enter collage contact" name="assignment_file" value=""
+                                id="uploadFile" accept=".doc,.docx"/>
                             <!--end::Input-->
-                            <span id="error_name" class="text-danger"></span>
+                            <span id="error_assignment_file" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -32,7 +32,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
 
-                    <button type="submit" class="btn btn-primary me-10" id="saveButtonCourse">
+                    <button type="submit" class="btn btn-primary me-10" id="saveButton">
                         <span class="indicator-label">
                             Submit
                         </span>
@@ -46,3 +46,16 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
