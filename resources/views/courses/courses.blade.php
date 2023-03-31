@@ -60,10 +60,13 @@
                                     </button>
                                 @endcan
                                 @can(\App\Helpers\Permissions::EDIT_COURSE)
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal" onclick="editCourse('{{$course->id}}' , '{{$course->name }}')">Edit</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal"
+                                        onclick="editCourse('{{ $course->id }}' , '{{ $course->name }}')">Edit</button>
                                 @endcan
                                 @canany(\App\Helpers\Permissions::DELETE_COURSE)
-                                    <button class="btn btn-danger">delete</button>
+                                    <button class="delete btn btn-danger"
+                                        data-url="{{ route('course.delete', $course->id) }}">delete</button>
+
                                 @endcan
                             </td>
                         </tr>
@@ -115,6 +118,48 @@
 
 
 
+            $(document).ready(function() {
+                $('.delete').on('click', function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('data-url');
+
+                    Swal.fire({
+                        title: 'Are you sure you want to delete this course?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: url,
+                                type: 'DELETE',
+                                data: {
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function(response) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'The course has been deleted.',
+                                        'success'
+                                    ).then(() => {
+                                        location.reload();
+                                    });
+                                },
+                                error: function(xhr) {
+                                    Swal.fire(
+                                        'Error!',
+                                        'An error occurred while deleting the course.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    })
+                });
+            });
 
 
 
@@ -126,9 +171,11 @@
             $('#courseId').val(course_id);
         }
 
-        function editCourse(){
+        function editCourse(id, name) {
 
+            $('#CourseId').val(name);
         }
+
         function saveCourse(event) {
             event.preventDefault(); // Prevent the form from submitting normally
 
@@ -155,6 +202,8 @@
                     setTimeout(function() {
                         $('#courseModal').modal('hide');
                     }, 2000);
+
+                    window.location.reload();
                 },
                 error: function(xhr, status, error) {
                     // Handle errors

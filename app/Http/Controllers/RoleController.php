@@ -25,6 +25,7 @@ class RoleController extends Controller
 
         $role = Role::updateOrCreate(['id' => $request->id], [
             'name' => $request->input('role_name'),
+            'user_id' => auth()->user()->id,
         ]);
 
         if ($request->permissions) {
@@ -43,7 +44,7 @@ class RoleController extends Controller
     public function getRolesWithPermission(Request $request)
     {
         if (auth()->user()->user_type == Constants::COLLAGE) {
-            $roles = auth()->user()->roles()->with('permissions')->get();
+            $roles = Role::where('user_id', auth()->user()->id)->get();
         } else {
             $roles = Role::with('permissions')->get();
         }
