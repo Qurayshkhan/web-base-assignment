@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Constants;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\UploadAssignmentRequest;
+use App\Models\Collage;
 use App\Models\Course;
 use App\Notifications\AssignmentNotification;
 use App\Services\EmailService;
@@ -23,7 +25,11 @@ class CourseController extends Controller
 
     public function index()
     {
-        $courses = Course::all();
+        $courses = $this->course->all();
+        if (auth()->user()->user_type == Constants::COLLAGE) {
+            $collageId = Collage::where('user_id', auth()->user()->id)->pluck('id');
+            $courses = $this->course->where('collage_id', $collageId)->get();
+        }
         return view('courses.courses', compact('courses'));
     }
 
@@ -40,7 +46,8 @@ class CourseController extends Controller
     }
 
 
-    public function addEditCourse(Request $request){
+    public function addEditCourse(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
@@ -59,10 +66,9 @@ class CourseController extends Controller
         }
     }
 
-    public function destroy($course){
+    public function destroy($course)
+    {
 
         return $this->course->find($course)->delete();
-
     }
-
 }

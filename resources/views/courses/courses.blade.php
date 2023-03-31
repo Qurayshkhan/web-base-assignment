@@ -24,6 +24,7 @@
                 <thead>
                     <tr class="fw-semibold fs-6 text-muted">
                         <th>Name</th>
+                        <th>Collage</th>
                         <th>Assignment File</th>
                         <th>Created At</th>
                         @canany([\App\Helpers\Permissions::DELETE_COURSE, \App\Helpers\Permissions::EDIT_COURSE,
@@ -35,7 +36,8 @@
                 <tbody>
                     @foreach ($courses as $course)
                         <tr>
-                            <td>{{ $course->name }}</td>
+                            <td>{{ $course->name ?? ''}}</td>
+                            <td>{{ $course->collage->user->name ?? ''}}</td>
                             <td>Assignment</td>
                             <td>{{ $course->created_at }}</td>
                             <td>
