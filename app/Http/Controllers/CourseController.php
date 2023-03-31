@@ -59,4 +59,10 @@ class CourseController extends Controller
         }
     }
 
+    public function destroy($course){
+
+        return $this->course->find($course)->delete();
+
+    }
+
 }

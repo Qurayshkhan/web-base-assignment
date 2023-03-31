@@ -20,10 +20,21 @@ class PermissionSeeder extends Seeder
     {
 
 
-        Role::firstOrCreate(['name' => 'Collage'], ['name' => 'Collage']);
-        Role::firstOrCreate(['name' => 'Teacher'], ['name' => 'Teacher']);
-        Role::firstOrCreate(['name' => 'Student'], ['name' => 'Student']);
-       $admin = Role::firstOrCreate(['name' => 'Admin'], ['name' => 'Admin']);
+        $user = User::firstOrCreate(
+            [
+                'email' => 'admin@gmail.com'
+            ],
+            [
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('admin123'),
+            ]
+
+        );
+        Role::firstOrCreate(['name' => 'Collage'], ['name' => 'Collage', 'user_id' => $user->id]);
+        Role::firstOrCreate(['name' => 'Teacher'], ['name' => 'Teacher', 'user_id' => $user->id]);
+        Role::firstOrCreate(['name' => 'Student'], ['name' => 'Student', 'user_id' => $user->id]);
+        $admin = Role::firstOrCreate(['name' => 'Admin'], ['name' => 'Admin', 'user_id' => $user->id]);
 
         $permissions =
             [
@@ -70,20 +81,7 @@ class PermissionSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
-      $admin->syncPermissions($permissions);
-      $user = User::firstOrCreate(
-            [
-                'email' => 'admin@gmail.com'
-            ],
-            [
-                'name' => 'admin',
-                'email' => 'admin@gmail.com',
-                'password' => Hash::make('admin123'),
-            ]
-
-        );
-
+        $admin->syncPermissions($permissions);
         $user->syncRoles($admin);
-
     }
 }
