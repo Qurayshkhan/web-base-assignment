@@ -25,4 +25,9 @@ class Course extends Model
     public function collage(){
         return $this->belongsTo(Collage::class);
     }
+
+    public function assignments()
+    {
+        return $this->belongsToMany(Assignment::class, 'course_assignment');
+    }
 }

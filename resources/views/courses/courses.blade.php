@@ -26,7 +26,6 @@
                         <th>Name</th>
                         <th>Collage</th>
                         <th>Assignment File</th>
-                        <th>Created At</th>
                         @canany([\App\Helpers\Permissions::DELETE_COURSE, \App\Helpers\Permissions::EDIT_COURSE,
                             \App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT])
                             <th>Action</th>
@@ -35,15 +34,27 @@
                 </thead>
                 <tbody>
                     @foreach ($courses as $course)
+
                         <tr>
                             <td>{{ $course->name ?? ''}}</td>
                             <td>{{ $course->collage->user->name ?? ''}}</td>
                             <td>Assignment</td>
-                            <td>{{ $course->created_at }}</td>
+
                             <td>
                                 @can(\App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT)
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#kt_modal_upload" onclick="uploadFile('{{ $course->id }}')">
+                                        data-bs-target="#kt_modal_upload"
+                                        @if (auth()->user()->user_type == \App\Helpers\Constants::TEACHER)
+
+                                        onclick="uploadFile('{{ $course->course_id }}')">
+
+                                        @else
+
+                                        onclick="uploadFile('{{ $course->id }}')">
+
+                                        @endif
+
+
                                         <!--begin::Svg Icon | path: icons/duotune/files/fil018.svg-->
                                         <span class="svg-icon svg-icon-2">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
