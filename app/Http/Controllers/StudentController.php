@@ -19,6 +19,8 @@ class StudentController extends Controller
         $this->studentService = $studentService;
         $this->courses = $course;
         $this->collage = $collage;
+        $this->middleware(['role_or_permission:student']);
+
     }
 
     public function index()

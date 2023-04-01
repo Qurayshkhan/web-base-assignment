@@ -7,6 +7,7 @@ use App\Http\Requests\CourseRequest;
 use App\Http\Requests\UploadAssignmentRequest;
 use App\Models\Collage;
 use App\Models\Course;
+use App\Models\Teacher;
 use App\Notifications\AssignmentNotification;
 use App\Services\EmailService;
 use Illuminate\Http\Request;
@@ -21,6 +22,8 @@ class CourseController extends Controller
     {
         $this->emailService = $emailService;
         $this->course = $course;
+        $this->middleware(['role_or_permission:course']);
+
     }
 
     public function index()
@@ -29,6 +32,14 @@ class CourseController extends Controller
         if (auth()->user()->user_type == Constants::COLLAGE) {
             $collageId = Collage::where('user_id', auth()->user()->id)->pluck('id');
             $courses = $this->course->where('collage_id', $collageId)->get();
+        }
+
+        if (auth()->user()->user_type == Constants::TEACHER) {
+
+            $teacherId = Teacher::where('user_id', auth()->user()->id)->pluck('id')->first();
+            $courses = Course::leftJoin('course_teacher', 'course_teacher.course_id', '=', 'courses.id')
+            ->where('course_teacher.teacher_id', $teacherId)
+            ->get();
         }
         return view('courses.courses', compact('courses'));
     }

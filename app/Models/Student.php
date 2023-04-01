@@ -23,4 +23,8 @@ class Student extends Model
         return $this->belongsToMany(Course::class);
     }
 
+    public function collage(){
+        return $this->belongsTo(Collage::class);
+    }
+
 }

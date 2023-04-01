@@ -119,13 +119,14 @@
 
         });
 
-        let editUser = (name, email, user_id, role_id) => {
+        let editUser = (name, email, user_id, role_id, user_type) => {
 
-            $('#userTypeFeild').attr('hidden', true);
+            console.log(user_type);
             $('#modalTitle').html("Edit a User");
             $('#userId').val(user_id);
             $('#name').val(name);
             $('#email').val(email);
+            $('#userType').val(user_type).trigger('change');
             $('#roleSelectId').val(role_id).trigger('change');
 
 

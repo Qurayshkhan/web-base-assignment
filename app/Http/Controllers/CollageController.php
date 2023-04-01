@@ -11,6 +11,8 @@ class CollageController extends Controller
     public function __construct(CollageService $collageService)
     {
         $this->collageService = $collageService;
+        $this->middleware(['role_or_permission:collage']);
+
     }
 
     public function index()

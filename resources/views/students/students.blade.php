@@ -1,19 +1,20 @@
 @php
-    $title = "Students";
+    $title = 'Students';
 @endphp
 @extends('layouts.master')
 @section('content')
     @include('students.student_modals.student-modal')
+    @include('students.student_modals.student-details-drawer')
     <div class="card shadow-sm">
         <div class="card-header">
             <h2 class="card-title">Students</h2>
             @can(\App\Helpers\Permissions::CREATE_STUDENT)
-            <div class="card-toolbar">
-                <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#studentModal">
-                    <i class="fa-solid fa-plus"></i>
-                    Add Student
-                </button>
-            </div>
+                <div class="card-toolbar">
+                    <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#studentModal">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Student
+                    </button>
+                </div>
             @endcan
 
         </div>
@@ -23,14 +24,11 @@
                     <tr class="fw-semibold fs-6 text-muted">
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Contact</th>
-                        <th>Address</th>
                         <th>Courses</th>
                         <th>Created At</th>
-                       @canany([\App\Helpers\Permissions::EDIT_STUDENT, \App\Helpers\Permissions::DELETE_STUDENT])
-
-                       <th>Action</th>
-                       @endcanany
+                        @canany([\App\Helpers\Permissions::EDIT_STUDENT, \App\Helpers\Permissions::DELETE_STUDENT, \App\Helpers\Permissions::VIEW_STUDENT])
+                            <th>Action</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -107,14 +105,6 @@
                         name: 'email'
                     },
                     {
-                        data: 'contact',
-                        name: 'contact'
-                    },
-                    {
-                        data: 'location',
-                        name: 'location'
-                    },
-                    {
                         data: 'courses',
                         name: 'courses'
                     },
@@ -123,13 +113,13 @@
                         name: 'created_at'
                     },
 
-                    @canany([\App\Helpers\Permissions::EDIT_STUDENT, \App\Helpers\Permissions::DELETE_STUDENT])
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: true,
-                        searchable: true
-                    },
+                    @canany([\App\Helpers\Permissions::EDIT_STUDENT, \App\Helpers\Permissions::DELETE_STUDENT, \App\Helpers\Permissions::VIEW_STUDENT])
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: true,
+                            searchable: true
+                        },
                     @endcanany
                 ]
             });
@@ -222,6 +212,34 @@
 
             // Trigger the change event to update the select2 control
             $('#courseSelectId').trigger('change');
+
+        }
+        let viewStudent = (name, email, user_id, student_id, conatact, address, collage_name, courses, degree_title,
+            roll_number) => {
+
+
+
+
+            $('#drawerName').html(name);
+            $('#drawerEmail').html(email);
+            $('#drawerCollage').html(collage_name);
+            $('#drawerContactStudent').html(conatact);
+            $('#drawerAddress').html(address);
+            $('#drawerTitle').html(degree_title);
+            $('#drawerRollNumber').html(roll_number);
+
+
+            let courseArray = courses.split(',');
+            let courseList = '<ul>';
+
+            courseArray.forEach(course => {
+                courseList += '<li>' + course.trim() + '</li>';
+            });
+
+            courseList += '</ul>';
+
+            $('#drawerCourses').html(courseList);
+
 
         }
     </script>

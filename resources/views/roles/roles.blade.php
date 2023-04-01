@@ -23,11 +23,9 @@
                     <tr class="fw-semibold fs-6 text-muted">
                         <th>Name</th>
                         <th>Permission</th>
-                        <th>Created At</th>
-                       @canany([\App\Helpers\Permissions::EDIT_ROLE, \App\Helpers\Permissions::DELETE_ROLE])
-                       <th>Action</th>
-
-                       @endcanany
+                        @canany([\App\Helpers\Permissions::EDIT_ROLE, \App\Helpers\Permissions::DELETE_ROLE])
+                            <th>Action</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -83,6 +81,14 @@
 
             });
 
+            function canEditOrDeleteRole() {
+                return
+                @canany([\App\Helpers\Permissions::EDIT_ROLE, \App\Helpers\Permissions::DELETE_ROLE])
+                    true
+                @else
+                    false
+                @endcanany ;
+            }
 
             $('#rolesTabel').DataTable({
                 processing: true,
@@ -99,19 +105,14 @@
                         name: 'permissions',
                         orderable: false
                     },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
 
-                    @canany([\App\Helpers\Permissions::EDIT_ROLE, \App\Helpers\Permissions::DELETE_ROLE])
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
-                        searchable: false
-                    },
-                    @endcanany
+                        searchable: false,
+                        visible: canEditOrDeleteRole()
+                    }
                 ]
             });
 
