@@ -43,13 +43,21 @@ class StudentRepository
                     $name = $row->user->name;
                     $email = $row->user->email;
                     $collageId = $row->collage_id;
+                    $collageName = $row->collage->user->name;
                     $degreeTitle = $row->degree_title;
                     $rollNumber = $row->roll_number;
+                    $studentCourseName = $row->courses->pluck('name')->toArray();
                     $courseNames = $row->courses->pluck('id')->toArray();
 
                     $actionBtn = "";
                         if (Auth::user()->can(\App\Helpers\Permissions::EDIT_STUDENT)) {
                             $actionBtn .= '<a onClick="editStudent(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $studentId . '`, `' . $row->contact . '`, `' . $row->location . '`, `' .  $collageId . '` , `' . implode(',', $courseNames) . '`, `' . $degreeTitle . '`, `' . $rollNumber . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#studentModal">Edit</a> ';
+                        }
+                        if (Auth::user()->can(\App\Helpers\Permissions::VIEW_STUDENT)) {
+
+                            $actionBtn .= '<button class="btn btn-secondary  btn-sm" onClick="viewStudent(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $studentId . '`, `' . $row->contact . '`, `' . $row->location . '`, `' .  $collageName  . '` , `' . implode(',', $studentCourseName) . '`, `' . $degreeTitle . '`, `' . $rollNumber . '`)" id="kt_drawer_example_basic_button">view</button>
+                       ';
+
                         }
                         if (Auth::user()->can(\App\Helpers\Permissions::DELETE_STUDENT)) {
                             $actionBtn .= '

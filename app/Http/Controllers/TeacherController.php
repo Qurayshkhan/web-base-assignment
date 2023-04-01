@@ -18,6 +18,8 @@ class TeacherController extends Controller
         $this->course = $course;
         $this->collage = $collage;
         $this->teacherService = $teacherService;
+        $this->middleware(['role_or_permission:teacher']);
+
     }
 
     public function index()

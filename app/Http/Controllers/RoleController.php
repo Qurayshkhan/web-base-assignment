@@ -13,6 +13,13 @@ use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role_or_permission:roles']);
+
+    }
+
     public function index()
     {
 

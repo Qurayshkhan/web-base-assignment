@@ -52,7 +52,7 @@ class UserRepository
         // return $this->user->where('id', '!=', auth()->user()->id)->get();
 
         if ($request->ajax()) {
-            $data = $this->user->select('id', 'name', 'email', 'created_at')->with('role:id,name')->where('id', '!=', auth()->user()->id)->get();
+            $data = $this->user->select('id', 'name', 'email', 'user_type' ,'created_at')->with('role:id,name')->where('id', '!=', auth()->user()->id)->get();
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('role', function ($row) {
@@ -63,12 +63,13 @@ class UserRepository
                     $userId = $row->id;
                     $name = $row->name;
                     $email = $row->email;
+                    $userType = $row->user_type;
                     $roleId = $row->roles()->pluck('id')->first();
 
                     $actionBtn = "";
 
                     if (Auth::user()->can(\App\Helpers\Permissions::EDIT_USER)) {
-                        $actionBtn .= '<a    onClick="editUser(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $roleId . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#userModal">Edit</a> ';
+                        $actionBtn .= '<a    onClick="editUser(`' . $name . '`, `' . $email . '`, `' . $userId . '`, `' . $roleId . '`, `' . $userType . '`)" class="edit btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#userModal">Edit</a> ';
                     }
                     if (Auth::user()->can(\App\Helpers\Permissions::DELETE_USER)) {
                         $actionBtn .=  '<button class="delete btn btn-danger btn-sm" data-id="' . $userId . '">Delete</button>';

@@ -17,6 +17,8 @@ class UserController extends Controller
     {
         $this->userService = $userService;
         $this->roles = $roles;
+
+        $this->middleware(['role_or_permission:user']);
     }
 
     public function index()
