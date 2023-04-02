@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Collage;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,21 +19,59 @@ class PermissionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(User $user, Hash $hash)
     {
 
-
-        $user = User::firstOrCreate(
-            [
-                'email' => 'admin@gmail.com'
-            ],
+        $user = User::updateOrCreate(
+            ['email' => 'admin@gmail.com'],
             [
                 'name' => 'admin',
-                'email' => 'admin@gmail.com',
-                'password' => Hash::make('admin123'),
+                'password' => $hash::make('admin123'),
             ]
-
         );
+
+        $collageUser = User::updateOrCreate(
+            ['email' => 'collage@gmail.com'],
+            [
+                'name' => 'collage',
+                'password' => $hash::make('collage123'),
+                'user_type' => 1
+            ]
+        );
+        $collage = Collage::updateOrCreate(
+            ['user_id' => $collageUser->id],
+            ['user_id' => $collageUser->id]
+        );
+
+        $teacherUser = User::updateOrCreate(
+            ['email' => 'teacher@gmail.com'],
+            [
+                'name' => 'teacher',
+                'password' => $hash::make('teacher123'),
+                'user_type' => 2
+            ]
+        );
+        $teacher = Teacher::updateOrCreate(
+            ['user_id' => $teacherUser->id],
+            ['collage_id' => $collage->id]
+        );
+
+        $studentUser = User::updateOrCreate(
+            ['email' => 'student@gmail.com'],
+            [
+                'name' => 'student',
+                'password' => $hash::make('student123'),
+                'user_type' => 3
+            ]
+        );
+        $student = Student::updateOrCreate(
+            ['user_id' => $studentUser->id],
+            [
+                'teacher_id' => $teacher->id,
+                'collage_id' => $collage->id
+            ]
+        );
+
         Role::firstOrCreate(['name' => 'Collage'], ['name' => 'Collage', 'user_id' => $user->id]);
         Role::firstOrCreate(['name' => 'Teacher'], ['name' => 'Teacher', 'user_id' => $user->id]);
         Role::firstOrCreate(['name' => 'Student'], ['name' => 'Student', 'user_id' => $user->id]);

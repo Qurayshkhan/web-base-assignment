@@ -24,6 +24,7 @@ class CourseController extends Controller
     {
         $this->emailService = $emailService;
         $this->course = $course;
+        $this->courseService = $courseService;
         $this->middleware(['role_or_permission:course']);
     }
 
@@ -96,6 +97,25 @@ class CourseController extends Controller
             return response()->json(['message' => 'Failed to ' . ($request->id ? 'update' : 'add') . ' course'], 500);
         }
     }
+
+
+
+    public function getContent($id)
+    {
+
+
+        return $this->courseService->readAssignment($id);
+    }
+
+
+
+
+
+
+
+
+
+
 
     public function destroy($course)
     {

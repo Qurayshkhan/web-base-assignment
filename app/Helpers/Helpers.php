@@ -14,7 +14,7 @@ class Helpers
 
 
         $file = $request->file('assignment_file');
-        $path = $file->storeAs('assignments', $file->getClientOriginalName());
+        $path = $file->storeAs('public/assignments', $file->getClientOriginalName());
         $url = Storage::url($path);
         // check if an assignment with the same name already exists in the database
         $existingAssignment = Assignment::where('name', $file->getClientOriginalName())->first();
@@ -26,6 +26,7 @@ class Helpers
 
         $assignment = new Assignment();
         $assignment->name = $file->getClientOriginalName();
+        $assignment->path = $url;
         $assignment->save();
 
         return $assignment;

@@ -9,7 +9,18 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'path'];
+
+
+    public function getPathAttribute($value)
+    {
+        return str_replace('storage', 'public', $value);
+    }
+
+    public function setPathAttribute($value)
+    {
+        $this->attributes['path'] = str_replace('public', 'storage', $value);
+    }
 
     public function courses()
     {

@@ -13,4 +13,14 @@ class CourseService
 
         $this->courseRepository = $courseRepository;
     }
+
+
+
+    public function readAssignment($id){
+
+        return $this->courseRepository->readAssignmentContent($id);
+
+    }
+
+
 }
