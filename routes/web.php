@@ -103,4 +103,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/add-update-course', [CourseController::class, 'addEditCourse'])->name('store.update.course');
     Route::delete('/delete-course/{course}', [CourseController::class, 'destroy'])->name('course.delete');
 
+    Route::get('/assignments/{id}/content', [CourseController::class,'getContent'])->name('read-assignmnet');
+
 });

@@ -43,7 +43,7 @@ class StudentRepository
                     $name = $row->user->name;
                     $email = $row->user->email;
                     $collageId = $row->collage_id;
-                    $collageName = $row->collage->user->name;
+                    $collageName = $row->collage->user->name ?? '';
                     $degreeTitle = $row->degree_title;
                     $rollNumber = $row->roll_number;
                     $studentCourseName = $row->courses->pluck('name')->toArray();

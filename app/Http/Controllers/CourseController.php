@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
+use App\Helpers\Helpers;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\UploadAssignmentRequest;
 use App\Models\Collage;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Notifications\AssignmentNotification;
+use App\Services\CourseService;
 use App\Services\EmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -17,13 +19,13 @@ use Illuminate\Support\Facades\Validator;
 class CourseController extends Controller
 {
 
-    protected $emailService, $course;
-    public function __construct(EmailService $emailService, Course $course)
+    protected $emailService, $course, $courseService;
+    public function __construct(EmailService $emailService, Course $course, CourseService $courseService)
     {
         $this->emailService = $emailService;
         $this->course = $course;
+        $this->courseService = $courseService;
         $this->middleware(['role_or_permission:course']);
-
     }
 
     public function index()
@@ -38,8 +40,8 @@ class CourseController extends Controller
 
             $teacherId = Teacher::where('user_id', auth()->user()->id)->pluck('id')->first();
             $courses = Course::leftJoin('course_teacher', 'course_teacher.course_id', '=', 'courses.id')
-            ->where('course_teacher.teacher_id', $teacherId)
-            ->get();
+                ->where('course_teacher.teacher_id', $teacherId)
+                ->whereHas('students')->get();
         }
         return view('courses.courses', compact('courses'));
     }
@@ -47,13 +49,32 @@ class CourseController extends Controller
     public function uploadAssignment(UploadAssignmentRequest $request)
     {
 
-        $course = Course::find($request->course_id);
-        $students = $course->students;
-        foreach ($students as $student) {
-            $this->emailService->assignmentNotification($course, $student);
-        }
 
-        return "Assignment upload successfully";
+        $assignments = Helpers::assignmentUploads($request);
+
+
+        $course = Course::find($request->course_id);
+
+        $course->assignments()->attach(
+            $request->course_id,
+            [
+                'course_id' => $course->id,
+                'assignment_id' => $assignments->id
+
+            ]
+        );
+
+
+
+        $students = $course->students;
+        if ($students) {
+            foreach ($students as $student) {
+                $this->emailService->assignmentNotification($course, $student);
+            }
+            return "Assignment upload successfully";
+        } else {
+            return "No Student Select this course";
+        }
     }
 
 
@@ -76,6 +97,25 @@ class CourseController extends Controller
             return response()->json(['message' => 'Failed to ' . ($request->id ? 'update' : 'add') . ' course'], 500);
         }
     }
+
+
+
+    public function getContent($id)
+    {
+
+
+        return $this->courseService->readAssignment($id);
+    }
+
+
+
+
+
+
+
+
+
+
 
     public function destroy($course)
     {

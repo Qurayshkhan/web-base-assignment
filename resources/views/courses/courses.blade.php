@@ -4,6 +4,7 @@
 @endphp
 @extends('layouts.master')
 @section('content')
+    @include('courses.course_modals.preview-modal')
     @include('courses.course_modals.assignment-modal')
     @include('courses.course_modals.course-modal')
     <div class="card shadow-sm">
@@ -26,7 +27,6 @@
                         <th>Name</th>
                         <th>Collage</th>
                         <th>Assignment File</th>
-                        <th>Created At</th>
                         @canany([\App\Helpers\Permissions::DELETE_COURSE, \App\Helpers\Permissions::EDIT_COURSE,
                             \App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT])
                             <th>Action</th>
@@ -36,10 +36,26 @@
                 <tbody>
                     @foreach ($courses as $course)
                         <tr>
-                            <td>{{ $course->name ?? ''}}</td>
-                            <td>{{ $course->collage->user->name ?? ''}}</td>
-                            <td>Assignment</td>
-                            <td>{{ $course->created_at }}</td>
+                            <td>{{ $course->name ?? '' }}</td>
+                            <td>{{ $course->collage->user->name ?? '' }}</td>
+
+                            <td>
+                                @if ($course->assignments->isNotEmpty())
+                                    <ul style="list-style-type: none; max-height: 100px; overflow-y: auto;">
+                                        @foreach ($course->assignments as $assignment)
+                                            <li class="assignment-name" data-assignment-id="{{ $assignment->id }}">
+                                                <a href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#preview-assignment">
+                                                    {{ $assignment->name ?? '-' }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    No assignments found
+                                @endif
+                            </td>
+
                             <td>
                                 @can(\App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT)
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -61,14 +77,15 @@
                                         <!--end::Svg Icon-->Upload Files
                                     </button>
                                 @endcan
+
                                 @can(\App\Helpers\Permissions::EDIT_COURSE)
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseModal"
-                                        onclick="editCourse('{{ $course->id }}' , '{{ $course->name }}')">Edit</button>
+                                        onclick="editCourse('{{ $course->id }}', '{{ $course->name }}')">Edit</button>
                                 @endcan
+
                                 @canany(\App\Helpers\Permissions::DELETE_COURSE)
                                     <button class="delete btn btn-danger"
                                         data-url="{{ route('course.delete', $course->id) }}">delete</button>
-
                                 @endcan
                             </td>
                         </tr>
@@ -221,5 +238,46 @@
                 }
             });
         }
+
+        // assuming each assignment name element has a class of "assignment-name"
+        const assignmentNames = document.querySelectorAll('.assignment-name');
+        // Initialize Quill editor
+        // Initialize Quill editor
+        const quill = new Quill('#editor', {
+            modules: {
+                toolbar: [
+                    [{
+                        'header': [1, 2, false]
+                    }],
+                    ['bold', 'italic', 'underline'],
+                    ['image', 'code-block']
+                ]
+            },
+            theme: 'snow'
+        });
+
+        // Make the editor editable
+        quill.enable();
+
+        assignmentNames.forEach(assignmentName => {
+            assignmentName.addEventListener('click', function() {
+                const assignmentId = this.getAttribute('data-assignment-id');
+                fetch(`/assignments/${assignmentId}/content`)
+                    .then(response => response.text())
+                    .then(content => {
+                        const modalTitle = document.querySelector('#preview-assignment .modal-title');
+                        const modalBody = document.querySelector('#preview-assignment .modal-body');
+
+                        // set the modal title to the assignment name
+                        modalTitle.textContent = this.textContent;
+
+
+                        // set the Quill editor content to the file content
+                        quill.setText(content);
+
+                    })
+                    .catch(error => console.error(error));
+            });
+        });
     </script>
 @endsection

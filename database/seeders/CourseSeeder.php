@@ -25,6 +25,7 @@ class CourseSeeder extends Seeder
             } else {
                 $newCourse = new Course;
                 $newCourse->name = $course;
+                $newCourse->collage_id = 1;
                 $newCourse->save();
             }
         }
