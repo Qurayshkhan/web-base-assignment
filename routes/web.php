@@ -40,6 +40,9 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/get-student-course', [HomeController::class, 'studentCourse'])->name('get.student.course');
+
+
 
     // User
     Route::get('/users', [UserController::class, 'index'])->name('users');
@@ -92,7 +95,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/get-student', [StudentController::class, 'getStudents'])->name('get.student');
     Route::post('/store-student', [StudentController::class, 'store'])->name('store.student');
 
-    Route::delete('/delete-student/{student}', [StudentController::class, 'deleteStudent'])->name('delete.student');
+    Route::delete('/delete-student/{student}', [StudentController::class, 'deleteStudent'])->name('delete.  student');
+
+
+
+
+
+
+
+
 
     // course
     Route::get('/course', [CourseController::class, 'index'])->name('course');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Constants;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,12 +25,25 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('Dashboard.home');
+        $courses = $this->studentCourse();
+        return view('Dashboard.home', compact('courses'));
     }
 
-    public function completeProfile(){
+    public function completeProfile()
+    {
 
         return view('profiles.complete-profile');
+    }
 
+    public function studentCourse()
+    {
+
+
+        if (auth()->user()->user_type == Constants::STUDENT) {
+            $student = Student::where('user_id', auth()->user()->id)->first();
+            $courses = $student->courses()->get();
+
+            return $courses;
+        }
     }
 }
