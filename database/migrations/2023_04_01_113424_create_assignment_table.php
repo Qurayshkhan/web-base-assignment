@@ -16,6 +16,10 @@ return new class extends Migration
         Schema::create('assignments', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->dateTime('due_date')->nullable();
+            $table->integer('total_marks')->nullable();
+            $table->tinyInteger('status')->default(0);
+            $table->string('results')->nullable();
             $table->timestamps();
         });
     }

@@ -116,4 +116,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/assignments/{id}/content', [CourseController::class,'getContent'])->name('read-assignmnet');
 
+    Route::get('/get-course-assignment/{course}', [CourseController::class, 'getCourseAssignment'])->name('course.assignment.id');
+
 });

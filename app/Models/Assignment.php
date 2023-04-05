@@ -9,7 +9,7 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'path'];
+    protected $fillable = ['name', 'path', 'results', 'due_date', 'total_marks', 'status'];
 
 
     public function getPathAttribute($value)

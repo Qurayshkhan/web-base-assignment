@@ -64,6 +64,14 @@ class CourseController extends Controller
             ]
         );
 
+        $this->course->updateOrCreate([$request->course_id],
+        [
+            'due_date' => $request->due_date,
+            'total_marks' => $request->total_marks,
+            'results' => $request->results,
+            'status' => 0
+        ]);
+
 
 
         $students = $course->students;
@@ -109,17 +117,20 @@ class CourseController extends Controller
 
 
 
-
-
-
-
-
-
-
-
     public function destroy($course)
     {
 
         return $this->course->find($course)->delete();
+    }
+
+
+    public function getCourseAssignment($course){
+
+        $course = $this->course->find($course);
+        $assignments = $course->assignments()->get();
+
+
+        return view('courses.assignments.course-assignments', compact('assignments'));
+
     }
 }
