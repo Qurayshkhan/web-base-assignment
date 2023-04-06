@@ -24,7 +24,10 @@ class UploadAssignmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'assignment_file' => 'required|mimes:doc,docx'
+            'assignment_file' => 'required|mimes:doc,docx',
+            'due_date' => 'required',
+            'total_marks' => 'required|numeric',
+            'results' => 'numeric|nullable'
         ];
     }
 }

@@ -42,7 +42,7 @@
                         <div class="fv-row mb-7">
 
                             <label class="required fs-6 fw-semibold mb-2">Total Marks</label>
-                            <input type="text" class="form-control form-control-solid"
+                            <input type="number" class="form-control form-control-solid"
                                 placeholder="Enter total marks" name="total_marks" value=""
                                 id="totalMarks"/>
                             <!--end::Input-->
@@ -54,11 +54,11 @@
                         <div class="fv-row mb-7">
 
                             <label class="required fs-6 fw-semibold mb-2">Results</label>
-                            <input type="text" class="form-control form-control-solid"
+                            <input type="number" class="form-control form-control-solid"
                                 placeholder="Enter result marks" name="results" value=""
                                 id="resultMarks"/>
                             <!--end::Input-->
-                            <span id="error_total_marks" class="text-danger"></span>
+                            <span id="error_results" class="text-danger"></span>
                         </div>
                     </div>
 

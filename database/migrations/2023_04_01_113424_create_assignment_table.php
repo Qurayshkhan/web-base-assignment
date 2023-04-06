@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('total_marks')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->string('results')->nullable();
+            $table->string('path')->nullable();
             $table->timestamps();
         });
     }

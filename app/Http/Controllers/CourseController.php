@@ -6,6 +6,7 @@ use App\Helpers\Constants;
 use App\Helpers\Helpers;
 use App\Http\Requests\CourseRequest;
 use App\Http\Requests\UploadAssignmentRequest;
+use App\Models\Assignment;
 use App\Models\Collage;
 use App\Models\Course;
 use App\Models\Teacher;
@@ -19,12 +20,13 @@ use Illuminate\Support\Facades\Validator;
 class CourseController extends Controller
 {
 
-    protected $emailService, $course, $courseService;
-    public function __construct(EmailService $emailService, Course $course, CourseService $courseService)
+    protected $emailService, $course, $courseService, $assignment;
+    public function __construct(EmailService $emailService, Course $course, CourseService $courseService, Assignment $assignment)
     {
         $this->emailService = $emailService;
         $this->course = $course;
         $this->courseService = $courseService;
+        $this->assignment = $assignment;
         $this->middleware(['role_or_permission:course']);
     }
 
@@ -39,9 +41,10 @@ class CourseController extends Controller
         if (auth()->user()->user_type == Constants::TEACHER) {
 
             $teacherId = Teacher::where('user_id', auth()->user()->id)->pluck('id')->first();
-            $courses = Course::leftJoin('course_teacher', 'course_teacher.course_id', '=', 'courses.id')
-                ->where('course_teacher.teacher_id', $teacherId)
-                ->whereHas('students')->get();
+            $teacherId = Teacher::where('user_id', auth()->user()->id)->pluck('id')->first();
+            $courses = Course::with('assignments')->whereHas('teachers', function ($query) use ($teacherId) {
+                $query->where('teachers.id', $teacherId);
+            })->whereHas('students')->get();
         }
         return view('courses.courses', compact('courses'));
     }
@@ -54,23 +57,23 @@ class CourseController extends Controller
 
 
         $course = Course::find($request->course_id);
-
         $course->assignments()->attach(
             $request->course_id,
             [
                 'course_id' => $course->id,
-                'assignment_id' => $assignments->id
+                'assignment_id'  =>  intval($assignments->id)
 
             ]
         );
 
-        $this->course->updateOrCreate([$request->course_id],
-        [
-            'due_date' => $request->due_date,
-            'total_marks' => $request->total_marks,
-            'results' => $request->results,
-            'status' => 0
-        ]);
+        $this->assignment->updateOrCreate(
+            ['id' => intval($assignments->id)],
+            [
+                'due_date' => $request->due_date,
+                'total_marks' => $request->total_marks,
+                'results' => $request->results,
+            ]
+        );
 
 
 
@@ -124,13 +127,13 @@ class CourseController extends Controller
     }
 
 
-    public function getCourseAssignment($course){
+    public function getCourseAssignment($course)
+    {
 
         $course = $this->course->find($course);
         $assignments = $course->assignments()->get();
 
 
         return view('courses.assignments.course-assignments', compact('assignments'));
-
     }
 }

@@ -23,10 +23,10 @@
 
                     <tr>
                         <td><a href="{{\Storage::url('assignments/'.$assignment->name)}}">{{$assignment->name}}</a></td>
-                        <td>2011/04/25</td>
-                        <td>20</td>
-                        <td>pending</td>
-                        <td>10</td>
+                        <td>{{$assignment->due_date ?? '-'}}</td>
+                        <td>{{$assignment->total_marks ?? '-'}}</td>
+                        <td>{{$assignment->status ?? '-'}}</td>
+                        <td>{{$assignment->results ?? '-'}}</td>
                     </tr>
                     @endforeach
 

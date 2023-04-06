@@ -9,7 +9,15 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'path', 'results', 'due_date', 'total_marks', 'status'];
+    protected $fillable = ['name', 'path' ,'results', 'due_date', 'total_marks', 'status'];
+
+    protected $append = ['status'];
+
+
+    public function getStatusAttribute($value)
+    {
+        return $value == 0 ? 'not submitted' : 'submitted';
+    }
 
 
     public function getPathAttribute($value)
