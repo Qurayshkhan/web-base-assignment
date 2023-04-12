@@ -118,4 +118,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/get-course-assignment/{course}', [CourseController::class, 'getCourseAssignment'])->name('course.assignment.id');
 
+    Route::post('/course-submit-assignment', [CourseController::class, 'submitAssignment'])->name('submit.assignment');
+
 });

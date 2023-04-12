@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Helpers\Constants;
 use App\Helpers\Helpers;
 use App\Http\Requests\CourseRequest;
+use App\Http\Requests\SubmitAssignmentRequest;
 use App\Http\Requests\UploadAssignmentRequest;
 use App\Models\Assignment;
+use App\Models\AssignmentSubmission;
 use App\Models\Collage;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Notifications\AssignmentNotification;
 use App\Services\CourseService;
 use App\Services\EmailService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
@@ -20,13 +23,14 @@ use Illuminate\Support\Facades\Validator;
 class CourseController extends Controller
 {
 
-    protected $emailService, $course, $courseService, $assignment;
-    public function __construct(EmailService $emailService, Course $course, CourseService $courseService, Assignment $assignment)
+    protected $emailService, $course, $courseService, $assignment, $submitAssignment;
+    public function __construct(EmailService $emailService, Course $course, CourseService $courseService, Assignment $assignment, AssignmentSubmission $submitAssignment)
     {
         $this->emailService = $emailService;
         $this->course = $course;
         $this->courseService = $courseService;
         $this->assignment = $assignment;
+        $this->submitAssignment = $submitAssignment;
         $this->middleware(['role_or_permission:course']);
     }
 
@@ -110,6 +114,26 @@ class CourseController extends Controller
     }
 
 
+    public function submitAssignment(Request $request)
+    {
+
+        if ($request->hasFile('assignment_file')) {
+
+            $fileName = Helpers::submitAssignment($request);
+        }
+
+        $this->submitAssignment->updateOrCreate(['student_id' => $request->student_id], [
+
+            'student_id' => $request->student_id,
+            'assignment_id' => $request->assignment_id,
+            'name' => $fileName ?? null,
+            'submitted_at' => Carbon::now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Assignment submit successfully'
+        ]);
+    }
 
     public function getContent($id)
     {
