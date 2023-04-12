@@ -27,6 +27,8 @@
                         <th>Name</th>
                         <th>Collage</th>
                         <th>Assignment File</th>
+                        <th>Marks</th>
+                        <th>Due Date</th>
                         @canany([\App\Helpers\Permissions::DELETE_COURSE, \App\Helpers\Permissions::EDIT_COURSE,
                             \App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT])
                             <th>Action</th>
@@ -55,11 +57,44 @@
                                     No assignments found
                                 @endif
                             </td>
-
+                            <td>
+                                @if ($course->assignments->isNotEmpty())
+                                    <ul style="list-style-type: none; max-height: 100px; overflow-y: auto;">
+                                        @foreach ($course->assignments as $assignment)
+                                            <li>
+                                                    {{ $assignment->total_marks ?? '-' }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    No Marks
+                                @endif
+                            </td>
+                            <td>
+                                @if ($course->assignments->isNotEmpty())
+                                    <ul style="list-style-type: none; max-height: 100px; overflow-y: auto;">
+                                        @foreach ($course->assignments as $assignment)
+                                            <li>
+                                                    {{ $assignment->due_date ?? '-' }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    No Date
+                                @endif
+                            </td>
                             <td>
                                 @can(\App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT)
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#kt_modal_upload" onclick="uploadFile('{{ $course->id }}')">
+                                        data-bs-target="#kt_modal_upload"
+
+                                        @if (auth()->user()->user_type == \App\Helpers\Constants::TEACHER)
+
+                                        onclick="uploadFile('{{ $course->course_id ?? ''}}')">
+                                        @else
+                                        onclick="uploadFile('{{ $course->id }}')">
+                                        @endif
+
                                         <!--begin::Svg Icon | path: icons/duotune/files/fil018.svg-->
                                         <span class="svg-icon svg-icon-2">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -98,6 +133,7 @@
 @endsection
 @section('script')
     <script>
+        $("#dueDate").flatpickr();
         $(document).ready(function() {
             $('#kt_modal_upload_form').submit(function(event) {
 

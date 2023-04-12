@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/global/plugins.bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.bundle.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
@@ -13,6 +14,7 @@
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
         type="text/css" />
     <title>{{ $title ?? '' }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed aside-fixed aside-secondary-disabled">

@@ -27,6 +27,40 @@
                             <span id="error_assignment_file" class="text-danger"></span>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="fv-row mb-7">
+                            <label class="required fs-6 fw-semibold mb-2">Due Date</label>
+                            <input type="text" class="form-control form-control-solid"
+                                placeholder="Enter due date" name="due_date" value=""
+                                id="dueDate"/>
+                            <!--end::Input-->
+                            <span id="error_due_date" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="fv-row mb-7">
+
+                            <label class="required fs-6 fw-semibold mb-2">Total Marks</label>
+                            <input type="number" class="form-control form-control-solid"
+                                placeholder="Enter total marks" name="total_marks" value=""
+                                id="totalMarks"/>
+                            <!--end::Input-->
+                            <span id="error_total_marks" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="fv-row mb-7">
+
+                            <label class="required fs-6 fw-semibold mb-2">Results</label>
+                            <input type="number" class="form-control form-control-solid"
+                                placeholder="Enter result marks" name="results" value=""
+                                id="resultMarks"/>
+                            <!--end::Input-->
+                            <span id="error_results" class="text-danger"></span>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="modal-footer">

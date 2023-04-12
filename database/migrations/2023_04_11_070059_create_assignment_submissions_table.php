@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Assignment;
+use App\Models\Student;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,14 +15,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('assignments', function (Blueprint $table) {
+        Schema::create('assignment_submissions', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Assignment::class)->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Student::class)->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name')->nullable();
-            $table->dateTime('due_date')->nullable();
-            $table->integer('total_marks')->nullable();
-            $table->tinyInteger('status')->default(0);
-            $table->string('results')->nullable();
-            $table->string('path')->nullable();
+            $table->date('submitted_at');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assignments');
+        Schema::dropIfExists('assignment_submissions');
     }
 };

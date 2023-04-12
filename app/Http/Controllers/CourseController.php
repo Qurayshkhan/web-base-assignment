@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Helpers\Constants;
 use App\Helpers\Helpers;
 use App\Http\Requests\CourseRequest;
+use App\Http\Requests\SubmitAssignmentRequest;
 use App\Http\Requests\UploadAssignmentRequest;
+use App\Models\Assignment;
+use App\Models\AssignmentSubmission;
 use App\Models\Collage;
 use App\Models\Course;
 use App\Models\Teacher;
 use App\Notifications\AssignmentNotification;
 use App\Services\CourseService;
 use App\Services\EmailService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
@@ -19,12 +23,14 @@ use Illuminate\Support\Facades\Validator;
 class CourseController extends Controller
 {
 
-    protected $emailService, $course, $courseService;
-    public function __construct(EmailService $emailService, Course $course, CourseService $courseService)
+    protected $emailService, $course, $courseService, $assignment, $submitAssignment;
+    public function __construct(EmailService $emailService, Course $course, CourseService $courseService, Assignment $assignment, AssignmentSubmission $submitAssignment)
     {
         $this->emailService = $emailService;
         $this->course = $course;
         $this->courseService = $courseService;
+        $this->assignment = $assignment;
+        $this->submitAssignment = $submitAssignment;
         $this->middleware(['role_or_permission:course']);
     }
 
@@ -39,9 +45,10 @@ class CourseController extends Controller
         if (auth()->user()->user_type == Constants::TEACHER) {
 
             $teacherId = Teacher::where('user_id', auth()->user()->id)->pluck('id')->first();
-            $courses = Course::leftJoin('course_teacher', 'course_teacher.course_id', '=', 'courses.id')
-                ->where('course_teacher.teacher_id', $teacherId)
-                ->whereHas('students')->get();
+            $teacherId = Teacher::where('user_id', auth()->user()->id)->pluck('id')->first();
+            $courses = Course::with('assignments')->whereHas('teachers', function ($query) use ($teacherId) {
+                $query->where('teachers.id', $teacherId);
+            })->whereHas('students')->get();
         }
         return view('courses.courses', compact('courses'));
     }
@@ -54,13 +61,21 @@ class CourseController extends Controller
 
 
         $course = Course::find($request->course_id);
-
         $course->assignments()->attach(
             $request->course_id,
             [
                 'course_id' => $course->id,
-                'assignment_id' => $assignments->id
+                'assignment_id'  =>  intval($assignments->id)
 
+            ]
+        );
+
+        $this->assignment->updateOrCreate(
+            ['id' => intval($assignments->id)],
+            [
+                'due_date' => $request->due_date,
+                'total_marks' => $request->total_marks,
+                'results' => $request->results,
             ]
         );
 
@@ -99,6 +114,26 @@ class CourseController extends Controller
     }
 
 
+    public function submitAssignment(Request $request)
+    {
+
+        if ($request->hasFile('assignment_file')) {
+
+            $fileName = Helpers::submitAssignment($request);
+        }
+
+        $this->submitAssignment->updateOrCreate(['student_id' => $request->student_id], [
+
+            'student_id' => $request->student_id,
+            'assignment_id' => $request->assignment_id,
+            'name' => $fileName ?? null,
+            'submitted_at' => Carbon::now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Assignment submit successfully'
+        ]);
+    }
 
     public function getContent($id)
     {
@@ -109,17 +144,20 @@ class CourseController extends Controller
 
 
 
-
-
-
-
-
-
-
-
     public function destroy($course)
     {
 
         return $this->course->find($course)->delete();
+    }
+
+
+    public function getCourseAssignment($course)
+    {
+
+        $course = $this->course->find($course);
+        $assignments = $course->assignments()->get();
+
+
+        return view('courses.assignments.course-assignments', compact('assignments'));
     }
 }

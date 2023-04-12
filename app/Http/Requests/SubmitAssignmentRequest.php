@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadAssignmentRequest extends FormRequest
+class SubmitAssignmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class UploadAssignmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'assignment_file' => 'required|mimes:doc,docx',
-            'due_date' => 'required',
-            'total_marks' => 'required|numeric',
-            'results' => 'numeric|nullable'
+            'assignment_file' => 'required'
         ];
     }
 }
