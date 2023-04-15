@@ -9,15 +9,9 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'path' ,'results', 'due_date', 'total_marks', 'status'];
-
-    protected $append = ['status'];
+    protected $fillable = ['name', 'path' , 'due_date', 'total_marks', 'status'];
 
 
-    public function getStatusAttribute($value)
-    {
-        return $value == 0 ? 'not submitted' : 'submitted';
-    }
 
 
     public function getPathAttribute($value)
@@ -33,5 +27,9 @@ class Assignment extends Model
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'course_assignment');
+    }
+
+    public function submitAssignment(){
+        return $this->hasOne(AssignmentSubmission::class);
     }
 }

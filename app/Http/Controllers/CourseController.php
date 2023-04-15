@@ -49,6 +49,8 @@ class CourseController extends Controller
             $courses = Course::with('assignments')->whereHas('teachers', function ($query) use ($teacherId) {
                 $query->where('teachers.id', $teacherId);
             })->whereHas('students')->get();
+
+
         }
         return view('courses.courses', compact('courses'));
     }
@@ -75,7 +77,7 @@ class CourseController extends Controller
             [
                 'due_date' => $request->due_date,
                 'total_marks' => $request->total_marks,
-                'results' => $request->results,
+                // 'results' => $request->results,
             ]
         );
 
@@ -122,7 +124,7 @@ class CourseController extends Controller
             $fileName = Helpers::submitAssignment($request);
         }
 
-        $this->submitAssignment->updateOrCreate(['student_id' => $request->student_id], [
+        $this->submitAssignment->updateOrCreate(['assignment_id' => $request->assignment_id], [
 
             'student_id' => $request->student_id,
             'assignment_id' => $request->assignment_id,

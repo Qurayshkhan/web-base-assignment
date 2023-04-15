@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreignIdFor(Student::class)->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name')->nullable();
             $table->date('submitted_at');
+            $table->tinyInteger('status')->default(0);
+            $table->string('results')->nullable();
             $table->timestamps();
         });
     }

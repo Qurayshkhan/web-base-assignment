@@ -10,4 +10,19 @@ class AssignmentSubmission extends Model
     use HasFactory;
 
     protected $fillable = ['student_id', 'assignment_id', 'name', 'submitted_at'];
+
+
+    protected $append = ['status'];
+
+
+    public function getStatusAttribute($value)
+    {
+        return $value == 0 ? 'not submitted' : 'submitted';
+    }
+
+    public function assignments(){
+
+        return $this->belongsTo(Assignment::class);
+
+    }
 }

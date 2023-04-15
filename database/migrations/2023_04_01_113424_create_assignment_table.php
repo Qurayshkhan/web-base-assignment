@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->dateTime('due_date')->nullable();
             $table->integer('total_marks')->nullable();
-            $table->tinyInteger('status')->default(0);
-            $table->string('results')->nullable();
+
             $table->string('path')->nullable();
             $table->timestamps();
         });
