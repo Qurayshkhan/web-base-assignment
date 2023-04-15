@@ -89,9 +89,6 @@
                                         data-bs-target="#kt_modal_upload"
 
                                         @if (auth()->user()->user_type == \App\Helpers\Constants::TEACHER)
-
-                                        onclick="uploadFile('{{ $course->course_id ?? ''}}')">
-                                        @else
                                         onclick="uploadFile('{{ $course->id }}')">
                                         @endif
 
@@ -158,6 +155,7 @@
                             .prop('disabled', false);
                         $('#kt_modal_upload_form')[0].reset();
                         $('#kt_modal_upload').modal('hide');
+                        window.location.reaload();
                     },
                     error: function(error) {
 

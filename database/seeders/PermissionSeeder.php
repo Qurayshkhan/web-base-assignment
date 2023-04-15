@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\Constants;
 use App\Models\Collage;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -35,7 +35,7 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'collage',
                 'password' => $hash::make('collage123'),
-                'user_type' => 1
+                'user_type' => Constants::COLLAGE
             ]
         );
         $collage = Collage::updateOrCreate(
@@ -48,7 +48,7 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'teacher',
                 'password' => $hash::make('teacher123'),
-                'user_type' => 2
+                'user_type' => Constants::TEACHER
             ]
         );
         $teacher = Teacher::updateOrCreate(
@@ -61,7 +61,7 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'student',
                 'password' => $hash::make('student123'),
-                'user_type' => 3
+                'user_type' => Constants::STUDENT
             ]
         );
         $student = Student::updateOrCreate(
@@ -72,9 +72,9 @@ class PermissionSeeder extends Seeder
             ]
         );
 
-        Role::firstOrCreate(['name' => 'Collage'], ['name' => 'Collage', 'user_id' => $user->id]);
-        Role::firstOrCreate(['name' => 'Teacher'], ['name' => 'Teacher', 'user_id' => $user->id]);
-        Role::firstOrCreate(['name' => 'Student'], ['name' => 'Student', 'user_id' => $user->id]);
+        $collageRole = Role::firstOrCreate(['name' => 'Collage'], ['name' => 'Collage', 'user_id' => $user->id]);
+        $teacherRole = Role::firstOrCreate(['name' => 'Teacher'], ['name' => 'Teacher', 'user_id' => $user->id]);
+        $studentRole = Role::firstOrCreate(['name' => 'Student'], ['name' => 'Student', 'user_id' => $user->id]);
         $admin = Role::firstOrCreate(['name' => 'Admin'], ['name' => 'Admin', 'user_id' => $user->id]);
 
         $permissions =
@@ -124,5 +124,8 @@ class PermissionSeeder extends Seeder
         }
         $admin->syncPermissions($permissions);
         $user->syncRoles($admin);
+        $collageUser->syncRoles($collageRole);
+        $teacherUser->syncRoles($teacherRole);
+        $studentUser->syncRoles($studentRole);
     }
 }

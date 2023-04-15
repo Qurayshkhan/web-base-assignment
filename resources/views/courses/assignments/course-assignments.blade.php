@@ -32,12 +32,17 @@
                                 <td>{{ $assignment->due_date ?? '-' }}</td>
                                 <td>{{ $assignment->total_marks ?? '-' }}</td>
                                 <td>
-                                    {{ $assignment->status ?? '-' }} <i class="fas fa-location-arrow fs-1 text-primary"
-                                        data-bs-toggle="modal" data-bs-target="#submit_assignment_modal"
-                                        style="cursor: pointer"
+                                    @if ($assignment->submitAssignment)
+
+                                    <a href="{{\Storage::url('assignments/'. $assignment->submitAssignment->name)}}" download>{{$assignment->submitAssignment->name}}</a>
+                                    @else
+                                    {{ $assignment->submitAssignment->status ?? 'Not Submitted' }}
+                                    @endif  <i
+                                        class="fas fa-location-arrow fs-1 text-primary" data-bs-toggle="modal"
+                                        data-bs-target="#submit_assignment_modal" style="cursor: pointer"
                                         onclick="submitAssignment('{{ $assignment->id }}', '{{ auth()->user()->student->id }}')"></i>
                                 </td>
-                                <td>{{ $assignment->results ?? '-' }}</td>
+                                <td>{{ $assignment->submitAssignment->results ?? '-' }}</td>
                             </tr>
                         @endforeach
 

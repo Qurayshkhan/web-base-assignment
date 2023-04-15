@@ -30,17 +30,17 @@ class UserRepository
 
         if ($data['user_type'] == Constants::COLLAGE) {
 
-            $this->collage->updateOrCreate(['id' => $data['id']], ['user_id' => $user->id]);
+            $this->collage->updateOrCreate(['user_id' => $data['id']], ['user_id' => $user->id]);
         }
 
         if ($data['user_type'] == Constants::TEACHER) {
 
-            $this->teacher->updateOrCreate(['id' => $data['id']], ['user_id' => $user->id]);
+            $this->teacher->updateOrCreate(['user_id' => $data['id']], ['user_id' => $user->id]);
         }
 
         if ($data['user_type'] == Constants::STUDENT) {
 
-            $this->student->updateOrCreate(['id' => $data['id']], ['user_id' => $user->id]);
+            $this->student->updateOrCreate(['user_id' => $data['id']], ['user_id' => $user->id]);
         }
 
         return $user;
