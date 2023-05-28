@@ -27,7 +27,7 @@
                         @foreach ($assignments as $assignment)
                             <tr>
                                 <td><a
-                                        href="{{ \Storage::url('assignments/' . $assignment->name) }}">{{ $assignment->name }}</a>
+                                        href="{{ asset('storage/assignments/' . $assignment->name) }}" download="{{ $assignment->name }}">{{ $assignment->name }}</a>
                                 </td>
                                 <td>{{ $assignment->due_date ?? '-' }}</td>
                                 <td>{{ $assignment->total_marks ?? '-' }}</td>
