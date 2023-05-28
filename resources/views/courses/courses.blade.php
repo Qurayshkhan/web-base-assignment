@@ -155,7 +155,7 @@
                             .prop('disabled', false);
                         $('#kt_modal_upload_form')[0].reset();
                         $('#kt_modal_upload').modal('hide');
-                        window.location.reaload();
+                        window.location.reload();
                     },
                     error: function(error) {
 
@@ -254,9 +254,10 @@
                     // Hide modal after 2 seconds
                     setTimeout(function() {
                         $('#courseModal').modal('hide');
-                    }, 2000);
+                        window.location.reload();
+                    }, 1000);
 
-                    window.location.reload();
+
                 },
                 error: function(xhr, status, error) {
                     // Handle errors
