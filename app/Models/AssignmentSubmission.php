@@ -20,9 +20,14 @@ class AssignmentSubmission extends Model
         return $value == 0 ? 'not submitted' : 'submitted';
     }
 
-    public function assignments(){
+    public function assignments()
+    {
 
         return $this->belongsTo(Assignment::class);
+    }
 
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
     }
 }

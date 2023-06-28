@@ -27,4 +27,10 @@ class Student extends Model
         return $this->belongsTo(Collage::class);
     }
 
+    public function submitAssignment(){
+
+        return $this->hasOne(submitAssignments::class);
+
+    }
+
 }

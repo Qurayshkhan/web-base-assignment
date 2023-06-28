@@ -29,6 +29,7 @@
                         <th>Assignment File</th>
                         <th>Marks</th>
                         <th>Due Date</th>
+                        <th>Submited Assignment</th>
                         @canany([\App\Helpers\Permissions::DELETE_COURSE, \App\Helpers\Permissions::EDIT_COURSE,
                             \App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT])
                             <th>Action</th>
@@ -37,7 +38,8 @@
                 </thead>
                 <tbody>
                     @foreach ($courses as $course)
-                        <tr>
+
+                    <tr>
                             <td>{{ $course->name ?? '' }}</td>
                             <td>{{ $course->collage->user->name ?? '' }}</td>
 
@@ -82,6 +84,23 @@
                                 @else
                                     No Date
                                 @endif
+                            </td>
+                            <td>
+                                @if ($course->assignments->isNotEmpty())
+                                <ul style="list-style-type: none; max-height: 100px; overflow-y: auto;">
+                                    @foreach ($course->assignments as $assignment)
+
+                                        @if ($assignment->submitAssignment)
+                                            <li>
+                                                Assignment: {{ $assignment->name }}<br>
+                                                Student: {{ $assignment->submitAssignment->student->user->name }}
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            @else
+                                No Submitted Assignments
+                            @endif
                             </td>
                             <td>
                                 @can(\App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT)
