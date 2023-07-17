@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Notifications\AssignmentNotification;
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\ResultAnnounceOfAssignment;
 use Illuminate\Support\Facades\Notification;
 
 class EmailService
@@ -19,5 +20,10 @@ class EmailService
     {
 
         Notification::send($student->user, new AssignmentNotification($course, $student));
+    }
+
+    public function resultAnnounceAssignment($student)
+    {
+        Notification::send($student, new ResultAnnounceOfAssignment($student));
     }
 }

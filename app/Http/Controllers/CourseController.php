@@ -4,20 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Constants;
 use App\Helpers\Helpers;
-use App\Http\Requests\CourseRequest;
-use App\Http\Requests\SubmitAssignmentRequest;
 use App\Http\Requests\UploadAssignmentRequest;
 use App\Models\Assignment;
 use App\Models\AssignmentSubmission;
 use App\Models\Collage;
 use App\Models\Course;
 use App\Models\Teacher;
-use App\Notifications\AssignmentNotification;
 use App\Services\CourseService;
 use App\Services\EmailService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
@@ -49,8 +45,6 @@ class CourseController extends Controller
             $courses = Course::with('assignments')->whereHas('teachers', function ($query) use ($teacherId) {
                 $query->where('teachers.id', $teacherId);
             })->whereHas('students')->get();
-
-
         }
         return view('courses.courses', compact('courses'));
     }
@@ -161,5 +155,21 @@ class CourseController extends Controller
 
 
         return view('courses.assignments.course-assignments', compact('assignments'));
+    }
+
+    public function markAssignmentResult(Request $request)
+    {
+        $findSubmitAssigment = $this->submitAssignment
+            ->where('assignment_id', $request->assignment_id)->where('student_id', $request->student_id)->first();
+
+
+
+        $findSubmitAssigment->results = $request->results;
+        $findSubmitAssigment->status = 1;
+        $findSubmitAssigment->save();
+
+        $this->emailService->resultAnnounceAssignment($findSubmitAssigment->student->user);
+
+        return redirect()->back()->with('status', 'Mark Assignment successfully');
     }
 }

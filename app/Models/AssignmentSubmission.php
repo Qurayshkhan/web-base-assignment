@@ -9,7 +9,7 @@ class AssignmentSubmission extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['student_id', 'assignment_id', 'name', 'submitted_at'];
+    protected $fillable = ['student_id', 'assignment_id', 'name', 'submitted_at', 'status', 'results'];
 
 
     protected $append = ['status'];

@@ -1,5 +1,5 @@
 @php
-
+    
     $title = 'Courses';
 @endphp
 @extends('layouts.master')
@@ -7,6 +7,7 @@
     @include('courses.course_modals.preview-modal')
     @include('courses.course_modals.assignment-modal')
     @include('courses.course_modals.course-modal')
+    @include('courses.course_modals.result-modal')
     <div class="card shadow-sm">
         <div class="card-header">
             <h2 class="card-title">Courses</h2>
@@ -38,8 +39,7 @@
                 </thead>
                 <tbody>
                     @foreach ($courses as $course)
-
-                    <tr>
+                        <tr>
                             <td>{{ $course->name ?? '' }}</td>
                             <td>{{ $course->collage->user->name ?? '' }}</td>
 
@@ -64,7 +64,7 @@
                                     <ul style="list-style-type: none; max-height: 100px; overflow-y: auto;">
                                         @foreach ($course->assignments as $assignment)
                                             <li>
-                                                    {{ $assignment->total_marks ?? '-' }}
+                                                {{ $assignment->total_marks ?? '-' }}
                                             </li>
                                         @endforeach
                                     </ul>
@@ -77,7 +77,7 @@
                                     <ul style="list-style-type: none; max-height: 100px; overflow-y: auto;">
                                         @foreach ($course->assignments as $assignment)
                                             <li>
-                                                    {{ $assignment->due_date ?? '-' }}
+                                                {{ $assignment->due_date ?? '-' }}
                                             </li>
                                         @endforeach
                                     </ul>
@@ -87,30 +87,29 @@
                             </td>
                             <td>
                                 @if ($course->assignments->isNotEmpty())
-                                <ul style="list-style-type: none; max-height: 100px; overflow-y: auto;">
-                                    @foreach ($course->assignments as $assignment)
+                                    <ul style="list-style-type: none; max-height: 100px; overflow-y: auto;">
+                                        @foreach ($course->assignments as $assignment)
+                                            @if ($assignment->submitAssignment)
+                                                <li>
+                                                    <a href="#" class="text-dark" data-bs-toggle="modal"
+                                                        data-bs-target="#marksModal"
+                                                        onclick="markAssignments({{ $assignment->submitAssignment->student->id }}, {{ $assignment->id }})"><b>Student
+                                                            Roll:</b>{{ $assignment->submitAssignment->student->roll_number }}
+                                                        <b>Assignment: </b>{{ $assignment->name }}</a>
 
-                                        @if ($assignment->submitAssignment)
-                                            <li>
-                                                Assignment: {{ $assignment->name }}<br>
-                                                Student: {{ $assignment->submitAssignment->student->user->name }}
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            @else
-                                No Submitted Assignments
-                            @endif
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    No Submitted Assignments
+                                @endif
                             </td>
                             <td>
                                 @can(\App\Helpers\Permissions::UPLOAD_COURSE_ASSIGNMENT)
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#kt_modal_upload"
-
-                                        @if (auth()->user()->user_type == \App\Helpers\Constants::TEACHER)
-                                        onclick="uploadFile('{{ $course->id }}')">
-                                        @endif
-
+                                        @if (auth()->user()->user_type == \App\Helpers\Constants::TEACHER) onclick="uploadFile('{{ $course->id }}')"> @endif
                                         <!--begin::Svg Icon | path: icons/duotune/files/fil018.svg-->
                                         <span class="svg-icon svg-icon-2">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -148,6 +147,11 @@
     </div>
 @endsection
 @section('script')
+    @if (Session::has('status'))
+        <script>
+            toastr.success("{{ Session::get('status') }}");
+        </script>
+    @endif
     <script>
         $("#dueDate").flatpickr();
         $(document).ready(function() {
@@ -333,5 +337,13 @@
                     .catch(error => console.error(error));
             });
         });
+    </script>
+    <script>
+        function markAssignments(student_id, assignment_id) {
+            console.log(student_id, assignment_id);
+
+            $('#studentIdForMarkAssignment').val(student_id);
+            $('#assignmentIdForRemarks').val(assignment_id);
+        }
     </script>
 @endsection

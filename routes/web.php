@@ -7,6 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -114,10 +115,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/add-update-course', [CourseController::class, 'addEditCourse'])->name('store.update.course');
     Route::delete('/delete-course/{course}', [CourseController::class, 'destroy'])->name('course.delete');
 
-    Route::get('/assignments/{id}/content', [CourseController::class,'getContent'])->name('read-assignmnet');
+    Route::get('/assignments/{id}/content', [CourseController::class, 'getContent'])->name('read-assignmnet');
 
     Route::get('/get-course-assignment/{course}', [CourseController::class, 'getCourseAssignment'])->name('course.assignment.id');
 
     Route::post('/course-submit-assignment', [CourseController::class, 'submitAssignment'])->name('submit.assignment');
 
+
+
+    Route::post('/mark-assignment-result', [CourseController::class, 'markAssignmentResult'])->name('assignment.mark.results');
 });
